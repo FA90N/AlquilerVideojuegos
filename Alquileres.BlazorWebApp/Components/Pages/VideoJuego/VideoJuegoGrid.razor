@@ -1,0 +1,25 @@
+﻿@page "/videojuego"
+@using Alquileres.Application.Models.Queries
+@attribute [Authorize]
+@inherits BaseComponent
+@{
+    const String PAGE_TITLE = "VideoJuegos";
+}
+
+<PageTitle>@(PageTitleHelper.GetFullAppTitle(PAGE_TITLE))</PageTitle>
+
+
+<SharedGridData @ref="grid" TItem="VideoJuegoListDTO" Data="@Data" 
+             
+                PreviewIcon="true" ShowExportButtons="false"
+                SelectedItems="@SelectedItems" 
+                OnAfterRenderAsync="@OnAfterRender"
+                OnLoadDataCallback="LoadData" 
+                OnClickCreateButtonCallback="async () => await OnCreateVideoJuego()"
+                OnClickEditRowCallback="OnEditVideoJuego"
+                OnClickDeleteRowCallback="OnDeleteVideoJuego"
+                OnClickPreviewRowCallback="OnPreviewRow"
+                TotalCount="@TotalCount"> 
+            
+</SharedGridData>
+

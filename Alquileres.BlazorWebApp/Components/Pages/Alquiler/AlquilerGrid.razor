@@ -1,0 +1,23 @@
+﻿@page "/alquiler"
+
+@using Alquileres.Application.Models.Queries
+@attribute [Authorize]
+@inherits BaseComponent
+
+@code {
+    const string PAGE_TITLE = "Alquileres";
+}
+
+
+<SharedGridData 
+                @ref="grid" TItem="AlquilerListDTO" Data="@Data"
+                PreviewIcon="true" ShowExportButtons=false 
+                OnClickCreateButtonCallback="OnCreateAlquiler"
+                OnClickEditRowCallback="OnEditAlquiler"
+                OnClickDeleteRowCallback="OnDeleteAlquiler"
+                OnClickPreviewRowCallback="PreviewRow"
+                SelectedItems="@SelectedItems"
+                OnAfterRenderAsync="@OnAfterRender"
+                OnLoadDataCallback="LoadData"
+                TotalCount="@TotalCount">
+</SharedGridData>

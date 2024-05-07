@@ -1,0 +1,81 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Work\\ERP-de-Videojuegos\\Alquileres.BlazorWebApp\\obj\\Release\\net8.0\\scopedcss\\projectbundle\\Alquileres.bundle.scp.css",
+      "PackagePath": "staticwebassets\\Alquileres.bundle.scp.css"
+    },
+    {
+      "Id": "C:\\Work\\ERP-de-Videojuegos\\Alquileres.BlazorWebApp\\wwwroot\\app.css",
+      "PackagePath": "staticwebassets\\app.css"
+    },
+    {
+      "Id": "C:\\Work\\ERP-de-Videojuegos\\Alquileres.BlazorWebApp\\wwwroot\\bootstrap\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\bootstrap\\bootstrap.min.css"
+    },
+    {
+      "Id": "C:\\Work\\ERP-de-Videojuegos\\Alquileres.BlazorWebApp\\wwwroot\\bootstrap\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\bootstrap\\bootstrap.min.css.map"
+    },
+    {
+      "Id": "C:\\Work\\ERP-de-Videojuegos\\Alquileres.BlazorWebApp\\wwwroot\\favicon.png",
+      "PackagePath": "staticwebassets\\favicon.png"
+    },
+    {
+      "Id": "C:\\Work\\ERP-de-Videojuegos\\Alquileres.BlazorWebApp\\wwwroot\\img\\background.jpg",
+      "PackagePath": "staticwebassets\\img\\background.jpg"
+    },
+    {
+      "Id": "C:\\Work\\ERP-de-Videojuegos\\Alquileres.BlazorWebApp\\wwwroot\\img\\background2.jpg",
+      "PackagePath": "staticwebassets\\img\\background2.jpg"
+    },
+    {
+      "Id": "C:\\Work\\ERP-de-Videojuegos\\Alquileres.BlazorWebApp\\wwwroot\\img\\casa.png",
+      "PackagePath": "staticwebassets\\img\\casa.png"
+    },
+    {
+      "Id": "C:\\Work\\ERP-de-Videojuegos\\Alquileres.BlazorWebApp\\wwwroot\\img\\cliente.png",
+      "PackagePath": "staticwebassets\\img\\cliente.png"
+    },
+    {
+      "Id": "C:\\Work\\ERP-de-Videojuegos\\Alquileres.BlazorWebApp\\wwwroot\\img\\configuracion.png",
+      "PackagePath": "staticwebassets\\img\\configuracion.png"
+    },
+    {
+      "Id": "C:\\Work\\ERP-de-Videojuegos\\Alquileres.BlazorWebApp\\wwwroot\\img\\consola-de-juego.png",
+      "PackagePath": "staticwebassets\\img\\consola-de-juego.png"
+    },
+    {
+      "Id": "C:\\Work\\ERP-de-Videojuegos\\Alquileres.BlazorWebApp\\wwwroot\\img\\en-renta.png",
+      "PackagePath": "staticwebassets\\img\\en-renta.png"
+    },
+    {
+      "Id": "C:\\Work\\ERP-de-Videojuegos\\Alquileres.BlazorWebApp\\wwwroot\\img\\id-card.png",
+      "PackagePath": "staticwebassets\\img\\id-card.png"
+    },
+    {
+      "Id": "C:\\Work\\ERP-de-Videojuegos\\Alquileres.BlazorWebApp\\wwwroot\\img\\juego.png",
+      "PackagePath": "staticwebassets\\img\\juego.png"
+    },
+    {
+      "Id": "C:\\Work\\ERP-de-Videojuegos\\Alquileres.BlazorWebApp\\wwwroot\\img\\rompecabezas.png",
+      "PackagePath": "staticwebassets\\img\\rompecabezas.png"
+    },
+    {
+      "Id": "obj\\Release\\net8.0\\staticwebassets\\msbuild.Alquileres.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Release\\net8.0\\staticwebassets\\msbuild.build.Alquileres.props",
+      "PackagePath": "build\\Alquileres.props"
+    },
+    {
+      "Id": "obj\\Release\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.Alquileres.props",
+      "PackagePath": "buildMultiTargeting\\Alquileres.props"
+    },
+    {
+      "Id": "obj\\Release\\net8.0\\staticwebassets\\msbuild.buildTransitive.Alquileres.props",
+      "PackagePath": "buildTransitive\\Alquileres.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

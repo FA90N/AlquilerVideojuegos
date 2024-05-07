@@ -1,0 +1,210 @@
+﻿@page "/alquiler/add"
+@page "/alquiler/edit/{AlquilerId:int}"
+
+@using Alquileres.Application.Models.Commands
+@using Alquileres.Application.Models.Queries
+@attribute [Authorize]
+@inherits BaseComponent
+
+@{
+    const string REQUIRED_VALIDATOR_TEXT = "El campo {0} es requerido";
+}
+
+<RadzenTemplateForm TItem="AlquilerFormDTO" Data="@Model" Submit="@OnSubmit" InvalidSubmit="@OnInvalidSubmit">
+    <RadzenStack Orientation="Orientation.Vertical" Gap="10px">
+        <RadzenCard>
+            <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Right" Gap="10px">
+                @if(botonDescargar)
+                {
+                    <RadzenButton Icon="print" Text="Imprimir" Click="@Imprimir" ButtonStyle="ButtonStyle.Primary"></RadzenButton>
+                }
+                    <RadzenButton ButtonType="ButtonType.Submit" Icon="save" Text="Guardar" ButtonStyle="ButtonStyle.Success"></RadzenButton>
+                <RadzenButton ButtonStyle="ButtonStyle.Light" Icon=" keyboard_return" Click="@Cancel" Text="Volver"></RadzenButton>
+            </RadzenStack>
+            <RadzenFieldset AllowCollapse="false">
+                <HeaderTemplate>
+                    <span class="d-inline-flex align-items-center align-middle">
+                        <b>Cabecera del alquiler</b>
+                    </span>
+                </HeaderTemplate>
+                
+                <ChildContent>
+                    <RadzenRow Gap="1rem" class="rz-p0">
+                        <RadzenColumn SizeLG="2" SizeMD="2" SizeXS="12">
+                            <RadzenStack>
+                                <RadzenFormField Text="Número Alquiler">
+                                    <ChildContent>
+                                        <RadzenTextBox Name="Code" @bind-Value="Model.Code" Disabled="true" />
+                                    </ChildContent>
+                                </RadzenFormField>
+                            </RadzenStack>
+                        </RadzenColumn>
+
+                        <RadzenColumn SizeLG="2" SizeMD="2" SizeXS="12">
+                            <RadzenStack>
+                                <RadzenFormField Text="Fecha">
+                                    <ChildContent>
+                                        <RadzenDatePicker Name="Fecha" ShowCalendarWeek @bind-Value="Model.Fecha" Disabled="true" ShowTime="false" DateFormat="dd/MM/yyyy" />
+                                    </ChildContent>
+                                </RadzenFormField>
+                            </RadzenStack>
+                        </RadzenColumn>
+
+                       <RadzenColumn SizeLG="5" SizeMD="5" SizeXS="12">
+                            <RadzenStack>
+                                <RadzenFormField Text="Cliente">
+                                    <ChildContent>
+                                       <RadzenDropDown @bind-Value=Model.IdCliente
+                                                       FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
+                                                       Context="clienteContext"
+                                                       Name="Cliente"
+                                                       Data=@ClienteList
+                                                       AllowFiltering=true
+                                                       TextProperty="Nombre"
+                                                       ValueProperty="Id"
+                                                       Change="@ClienteSelected">
+                                       <Template>
+                                                <div style="@((clienteContext as DropDownModel)!.CssStyle)">
+                                                    @((clienteContext as DropDownModel)!.Nombre)
+                                                </div>
+                                       </Template>
+                                       </RadzenDropDown>
+                                    </ChildContent>
+                                    <Helper>
+                                        <RadzenCustomValidator Component="Cliente" Validator="@(() => Model.IdCliente > 0)" Text="@(string.Format(REQUIRED_VALIDATOR_TEXT, "Cliente"))" />
+                                    </Helper>
+                                </RadzenFormField>
+                            </RadzenStack>
+                        </RadzenColumn>
+
+                        <RadzenColumn SizeLG="3" SizeMD="3" SizeXS="12">
+                            <RadzenStack>
+                                <RadzenFormField Text="DNI/NIE">
+                                    <ChildContent>
+                                        <RadzenTextBox Name="Dni" @bind-Value="Cliente.Dni" Disabled=true />
+                                    </ChildContent>
+                                </RadzenFormField>
+                            </RadzenStack>
+                        </RadzenColumn>
+
+                        <RadzenColumn SizeLG="2" SizeMD="2" SizeXS="12">
+                            <RadzenStack>
+                                <RadzenFormField Text="Forma de pago">
+                                    <ChildContent>
+                                    <RadzenDropDown AllowClear="false"
+                                                    DisabledProperty="Disabled"
+                                                    @bind-Value="@Model.IdFormaPago"
+                                                    Data="@FormaPagoList"
+                                                    Name="Pago"
+                                                    TextProperty="Nombre"
+                                                    ValueProperty="Id">
+                                         
+                                      </RadzenDropDown>
+                                    </ChildContent>
+                                    <Helper>
+                                        <RadzenCustomValidator Component="Pago" Validator="@(() => Model.IdFormaPago > 0)" Text="@(string.Format(REQUIRED_VALIDATOR_TEXT, "Forma de pago"))" />
+                                    </Helper>
+                                </RadzenFormField>        
+                            </RadzenStack>
+                        </RadzenColumn>
+
+                        <RadzenColumn SizeLG="2" SizeMD="2" SizeXS="12">
+                            <RadzenStack>
+                                <RadzenFormField Text="Teléfono">
+                                    <ChildContent>
+                                        <RadzenTextBox Name="Telefono" @bind-Value="Cliente.Telefono" Disabled=true />
+                                    </ChildContent>
+                                </RadzenFormField>
+                            </RadzenStack>
+                        </RadzenColumn>
+
+                        <RadzenColumn SizeLG="3" SizeMD="3" SizeXS="12">
+                            <RadzenStack>
+                                <RadzenFormField Text="Correo Electrónico">
+                                    <ChildContent>
+                                        <RadzenTextBox Name="Correo" @bind-Value="Cliente.Email"  Disabled=true />
+                                    </ChildContent>
+                                </RadzenFormField>
+                            </RadzenStack>
+                        </RadzenColumn>
+
+                        <RadzenColumn SizeLG="2" SizeMD="2" SizeXS="12">
+                            <RadzenStack>
+                                <RadzenFormField Text="Fecha devolución">
+                                    <ChildContent>
+                                        <RadzenDatePicker Name="FechaFin" ShowCalendarWeek @bind-Value="Model.FechaFin" Change="@cambioDias" ShowTime="false" DateFormat="dd/MM/yyyy" />
+                                    </ChildContent>
+                                    <Helper>
+                                        <RadzenCustomValidator Component="FechaFin" Validator="@(() => Model.FechaFin > Model.Fecha)" Text= "La fecha devolución debe ser posterior a la fecha de hoy" />
+                                    </Helper>
+                                </RadzenFormField>
+                            </RadzenStack>
+                        </RadzenColumn>
+
+
+                        <RadzenColumn SizeLG="1" SizeMD="1" SizeXS="12">
+                            <RadzenStack>
+                                <RadzenFormField Text="Dias">
+                                    <ChildContent>
+                                        <RadzenNumeric Name="Dias" @bind-Value="Model.Dias" Disabled="true" />
+                                    </ChildContent>
+                                  
+                                </RadzenFormField>
+                                
+                            </RadzenStack>
+                        </RadzenColumn>
+
+                        <RadzenColumn SizeLG="2" SizeMD="2" SizeXS="12">
+                            <RadzenStack>
+                                <RadzenFormField Text="Importe Total">
+                                    <ChildContent>
+                                        <RadzenNumeric Name="Importe" @bind-Value="Importe" Format="c" Disabled="true" />
+                                    </ChildContent>
+                                </RadzenFormField>
+
+                            </RadzenStack>
+                        </RadzenColumn>
+
+
+                      
+
+                    </RadzenRow>
+
+                   @*  <RadzenColumn SizeLG="12" SizeMD="12" SizeXS="12">
+                        <RadzenStack Gap="1rem" Orientation="Orientation.Horizontal" Wrap="FlexWrap.Wrap">
+                            <RadzenText TextAlign="TextAlign.Justify" Style="margin-right: 8px; margin-top: 20px; color: red;" TextStyle="TextStyle.Subtitle1" >
+                                *Si esta marcado en color rojo, esta desactivado
+                            </RadzenText>
+                        </RadzenStack>
+                    </RadzenColumn>  *@
+
+                </ChildContent>
+
+
+
+            </RadzenFieldset>
+        </RadzenCard>
+    </RadzenStack>
+    <RadzenTabs Visible="@(!IsNew)">
+        <Tabs>
+            <RadzenTabsItem Text="Alquileres">
+                <SharedGridData @ref="gridLines" TItem="LineaAlquilerDTO" Data="LineasAlquiler"
+                                ShowExportButtons="false"
+                                CreateButtonText="NUEVA LÍNEA"
+                                OnAfterRenderAsync="@OnAfterRender"
+                                OnClickCreateButtonCallback="@CreateLine"
+                                OnClickDeleteRowCallback="@DeleteLineRow"
+                                OnClickEditRowCallback="@EditLineRow"
+                                AllowFiltering="false" AllowPaging="false"
+                                PanelHeight="fit-content" GridHeight="fit-content">
+                </SharedGridData>
+
+            </RadzenTabsItem>
+      
+
+        </Tabs>
+    </RadzenTabs>
+
+   
+</RadzenTemplateForm>
+

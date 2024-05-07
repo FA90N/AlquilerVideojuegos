@@ -1,0 +1,121 @@
+﻿@page "/linea-alquiler/{AlquilerId:int}/{LineaAlquilerId:int}"
+@using Alquileres.Application.Models.Commands
+@using Alquileres.Application.Models.Queries
+@attribute [Authorize]
+@inherits BaseComponent
+
+@{
+    const string REQUIRED_VALIDATOR_TEXT = "El campo {0} es requerido";
+    const string MAXLENGTH_VALIDATOR_TEXT = "La longitud no puede ser superior a los {0} caracteres";
+}
+
+<RadzenTemplateForm TItem="LineaAlquilerFormDTO" Data="@Model" Submit="@OnSubmit" InvalidSubmit="@OnInvalidSubmit">
+    <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Right" Gap="10px" Style="margin-bottom:10px">
+        <RadzenButton ButtonType="ButtonType.Submit" Icon="save" Text="Guardar" ButtonStyle="ButtonStyle.Success"></RadzenButton>
+        <RadzenButton ButtonStyle="ButtonStyle.Light" Icon="cancel" Click="() => DialogService.Close()" Text="Cancelar"></RadzenButton>
+    </RadzenStack>
+
+    <RadzenRow>
+
+        <RadzenColumn Size="6" Class="rz-p-2 rz-border-radius-1">
+            <RadzenFormField Text="Videojuegos" Style="width: 100%">
+                <ChildContent>
+                    <RadzenDropDown @bind-Value=@VideojuegoSelect
+                                    FilterCaseSensitivity=FilterCaseSensitivity.CaseInsensitive
+                                    AllowFiltering="true"
+                                    Data="@VideoJuegos"
+                                    TextProperty="Nombre"
+                                    ValueProperty="Id"
+                                    Style="width:25%"
+                                    Name="Videojuegos"
+                                    DisabledProperty="Disabled"
+                                    Change="@VideoJuegoChange" />
+                </ChildContent>
+                <Helper>
+                    <RadzenCustomValidator Component="Videojuegos" Validator="@(() => VideojuegoSelect > 0)" Text="@(string.Format(REQUIRED_VALIDATOR_TEXT, "Videojuegos"))" />
+                </Helper>
+            </RadzenFormField>
+        </RadzenColumn>
+
+        <RadzenColumn Size="6" Class="rz-p-2 rz-border-radius-1">
+            <RadzenFormField Text="Precios por plataforma" Style="width: 100%">
+                <ChildContent>
+                    <RadzenDropDown @bind-Value=@PrecioSelectId
+                                    FilterCaseSensitivity=FilterCaseSensitivity.CaseInsensitive
+                                    AllowFiltering="true"
+                                    Data="@PreciosVideojuego"
+                                    TextProperty="Nombre"
+                                    ValueProperty="Id"
+                                    Style="width:25%"
+                                    Name="Precios"
+                                    Change="@PrecioSelecOnChange" 
+                                    DisabledProperty="Disabled"
+                                    Disabled="Disable"/>
+                </ChildContent>
+                <Helper>
+                    <RadzenCustomValidator Component="Precios" Validator="@(() => PrecioSelectId > 0)" Text="@(string.Format(REQUIRED_VALIDATOR_TEXT, "Plataforma con precio"))" />
+                </Helper>
+            </RadzenFormField>
+        </RadzenColumn>
+
+        <RadzenRow>
+            <RadzenColumn Size="12" Class="rz-p-2 rz-border-radius-1">
+                <RadzenDataGrid FilterPopupRenderMode="PopupRenderMode.OnDemand" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
+                                Data="@ListaPrecios" TItem="PrecioVideoJuegoListDTO" ColumnWidth="200px" Density="Density.Compact" AllowAlternatingRows="false"
+                                EmptyText="No hay elementos que mostrar" IsLoading="false">
+                    <Columns>
+
+                        <RadzenDataGridColumn TItem="PrecioVideoJuegoListDTO" Property="NombrePlataforma" Title="Plataformas de juego" />
+                        <RadzenDataGridColumn TItem="PrecioVideoJuegoListDTO" Property="Precio" Title="Precio por Dia" Width="100px" FormatString="{0:C}" TextAlign="TextAlign.Center" />
+                        <RadzenDataGridColumn TItem="PrecioVideoJuegoListDTO" Property="Activado" Title="Disponible" Width="100px"  TextAlign="TextAlign.Center" >
+                            <Template Context="data">
+                                <RadzenCheckBox TValue="bool" @bind-Value="@data.Activado" Disabled="true" ></RadzenCheckBox>
+                            </Template>
+                        </RadzenDataGridColumn>
+        
+                    </Columns>
+                </RadzenDataGrid>
+            </RadzenColumn>
+        </RadzenRow>
+
+        <RadzenRow>
+   
+            <RadzenColumn Size="4" Class="rz-p-2 rz-border-radius-1">
+                <RadzenFormField Text="Precio/Dia" Style="width:100%">
+                    <RadzenNumeric Name="Precio" @bind-Value="precioJuego.Precio" Format="c" Disabled="true" />
+                </RadzenFormField>
+            </RadzenColumn>
+
+            <RadzenColumn Size="4" Class="rz-p-2 rz-border-radius-1">
+                <RadzenFormField Text="Cantidad" Style="width:100%">
+                    <ChildContent>
+                        <RadzenNumeric Name="Cantidad" ShowUpDown="false" TValue="int" Min="1" @bind-Value="Model.Cantidad" Change="@CantidadOnChange" />
+                    </ChildContent>
+
+                </RadzenFormField>
+            </RadzenColumn>
+
+            <RadzenColumn Size="4" Class="rz-p-2 rz-border-radius-1">
+                <RadzenFormField Text="Importe Total / Dia (€)" Style="width:100%">
+                    <RadzenNumeric Name="Total" @bind-Value="Total" Format="c" Disabled="true" />
+                </RadzenFormField>
+            </RadzenColumn>
+
+        </RadzenRow>
+
+    
+        <RadzenColumn Size="9" Class="rz-p-2 rz-border-radius-1">
+                <RadzenFormField Text="Comentarios" Style="width:100%">
+                    <ChildContent>
+                        <RadzenTextArea Name="Comentarios" @bind-Value="Model.Comentarios" MaxLength="250" />
+                    </ChildContent>
+                    <Helper>
+                        <RadzenLengthValidator Component="Comentarios" Max="250" Text="@(string.Format(MAXLENGTH_VALIDATOR_TEXT, "250"))" />
+                    </Helper>
+                </RadzenFormField>
+        </RadzenColumn>
+       
+
+    </RadzenRow>
+</RadzenTemplateForm>
+

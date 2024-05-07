@@ -1,0 +1,93 @@
+﻿@using Alquileres.Application.Commands.Genero
+@using Alquileres.Application.Models.Queries
+@using Alquileres.Application.Models.Commands
+@using Alquileres.Application.Queries.Genero
+@using Alquileres.Components.Pages.Configuracion
+
+
+@inherits BaseComponent
+
+<SharedGridData @ref="grid" TItem="GeneroListDTO"
+
+                Data="@Data" ShowExportButtons="false"
+                PreviewIcon="false" SelectedItems="@SelectedItems" OnAfterRenderAsync="@OnAfterRender"
+                ShowCreateButton="true" CreateButtonText="CREAR GENERO"
+                OnClickDeleteRowCallback="DeleteVideoGeneroRow"
+                OnClickEditRowCallback="EditVideoGeneroRow"
+                OnClickCreateButtonCallback="CreateVideoGenero"
+                OnLoadDataCallback="LoadData" 
+                TotalCount="@TotalCount"
+                PanelHeight="73vh" GridHeight="63vh">
+
+</SharedGridData>
+
+
+@code {
+    SharedGridData<GeneroListDTO> grid;
+
+    public int TotalCount { get; set; }
+
+    public IEnumerable<GeneroListDTO> Data { get; set; } = null!;
+
+    public IList<GeneroListDTO> SelectedItems { get; set; } = new List<GeneroListDTO>();
+
+    int selectedIndex;
+
+    async Task LoadData(LoadDataArgs args = null)
+    {
+        try
+        {
+            var result = await Mediator.Send(new GetGeneroQuery(args));
+            Data = result.Item1;
+            TotalCount = result.Item2;
+        }
+        catch (Exception ex)
+        {
+            await SweetAlertHelper.ShowThrowErrorAlertAsync(Swal, ex);
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var column = grid.ColumnsCollection.FirstOrDefault();
+
+            if (column is not null)
+            {
+                column.FilterValue = true;
+                await grid.ReloadData();
+            }
+        }
+
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
+    async Task EditVideoGeneroRow(GeneroListDTO genero)
+    {
+        var result = await DialogService.OpenAsync<GeneroForm>($"Edición de {genero.Id} - {genero.Nombre}",
+           new Dictionary<string, object>() { { "GeneroId", genero.Id } }, new DialogOptions() { Width = "1000px", Height = "300px", Resizable = true, Draggable = true, CloseDialogOnOverlayClick = true });
+
+        if (result is bool && (bool)result)
+        {
+            await grid.ReloadData();
+        }
+    }
+
+    async Task DeleteVideoGeneroRow(GeneroListDTO genero)
+    {
+        await SweetAlertHelper.ShowDeleteAlertAsync(Swal, async () => await Mediator.Send(new DeleteGeneroCommand(genero.Id)));
+        await grid.ReloadData();
+    }
+
+    async Task CreateVideoGenero()
+    {
+        var result = await DialogService.OpenAsync<GeneroForm>("Crear nuevo género", options: new DialogOptions() { Width = "1000px", Height = "300px", Resizable = true, Draggable = true, CloseDialogOnOverlayClick = true });
+
+        if (result is bool && (bool)result)
+        {
+            await grid.ReloadData();
+        }
+    }
+
+}

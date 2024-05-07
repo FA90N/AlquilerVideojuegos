@@ -1,0 +1,94 @@
+﻿@using Alquileres.Application.Models.Queries
+@using Alquileres.Application.Models.Commands
+@using Alquileres.Application.Queries.Plataforma
+@using Alquileres.Application.Commands.Plataforma
+@using Alquileres.Components.Pages.Configuracion;
+
+@inherits BaseComponent
+
+<SharedGridData @ref="grid" TItem="PlataformaListDTO"
+                Data="@Data" ShowExportButtons="false"
+                PreviewIcon="false" SelectedItems="@SelectedItems" OnAfterRenderAsync="@OnAfterRender"
+                ShowCreateButton="true" CreateButtonText="CREAR PLATAFORMA"
+                OnClickDeleteRowCallback="DeleteVideoPlataformaRow"
+                OnClickEditRowCallback="EditVideoPlataformaRow"
+                OnClickCreateButtonCallback="CreateVideoPlataforma"
+                OnLoadDataCallback="LoadData" TotalCount="@TotalCount"
+                PanelHeight="73vh" GridHeight="63vh">
+</SharedGridData>
+
+@code {
+
+    SharedGridData<PlataformaListDTO> grid;
+
+    public int TotalCount { get; set; }
+
+    public IEnumerable<PlataformaListDTO> Data { get; set; } = null!;
+
+    public IList<PlataformaListDTO> SelectedItems { get; set; } = new List<PlataformaListDTO>();
+
+    int selectedIndex;
+
+ 
+
+    async Task LoadData(LoadDataArgs args = null)
+    {
+        try
+        {
+            var result = await Mediator.Send(new GetPlataformaQuery(args));
+            Data = result.Item1;
+            TotalCount = result.Item2;
+        }
+        catch(Exception ex)
+        {
+            await SweetAlertHelper.ShowThrowErrorAlertAsync(Swal, ex);
+        }
+
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var column = grid.ColumnsCollection.FirstOrDefault();
+
+            if (column is not null)
+            {
+                column.FilterValue = true;
+                await grid.ReloadData();
+            }
+        }
+
+        await base.OnAfterRenderAsync(firstRender);
+    }
+    async Task CreateVideoPlataforma()
+    {
+        var result = await DialogService.OpenAsync<PlataformaForm>("Crear nueva plataforma", options: new DialogOptions() { Width = "1000px", Height = "400px", Resizable = true, Draggable = true, CloseDialogOnOverlayClick = true });
+        if (result is bool && (bool)result)
+        {
+            await grid.ReloadData();
+        }
+    }
+
+    async Task DeleteVideoPlataformaRow(PlataformaListDTO plataforma)
+    {
+        await SweetAlertHelper.ShowDeleteAlertAsync(Swal,
+        async () => await Mediator.Send(new DeletePlataformaCommand(plataforma.Id))
+        );
+
+        await grid.ReloadData();
+    }
+
+    async Task EditVideoPlataformaRow(PlataformaListDTO plataforma)
+    {
+        var result = await DialogService.OpenAsync<PlataformaForm>($"Edición de {plataforma.Id} - {plataforma.Nombre}",
+           new Dictionary<string, object>() { { "PlataformaId", plataforma.Id } }, new DialogOptions() { Width = "1000px", Height = "400px", Resizable = true, Draggable = true, CloseDialogOnOverlayClick = true });
+
+        if (result is bool && (bool)result)
+        {
+            await grid.ReloadData();
+        }
+    }
+
+
+}

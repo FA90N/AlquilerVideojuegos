@@ -1,0 +1,64 @@
+﻿@page "/preciovideojuego-formulario/{VideojuegoId:int}/{PreciovideojuegoId:int}"
+@using Alquileres.Application.Models.Commands
+@using Alquileres.Application.Models.Queries
+@attribute [Authorize]
+@inherits BaseComponent
+
+@{
+    const string REQUIRED_VALIDATOR_TEXT = "El campo {0} es requerido";
+    const string MAXLENGTH_VALIDATOR_TEXT = "La longitud no puede ser superior a los {0} carácteres";
+}
+<RadzenTemplateForm TItem="PrecioVideoJuegoFormDTO" Data="@Model" Submit="@OnSubmit" InvalidSubmit="@OnInvalidSubmit">
+    <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Right" Gap="10px" Style="margin-bottom:10px">
+        <RadzenButton ButtonType="ButtonType.Submit" Icon="save" Text="Guardar" ButtonStyle="ButtonStyle.Success"></RadzenButton>
+        <RadzenButton ButtonStyle="ButtonStyle.Light" Icon="cancel" Click="() => DialogService.Close()" Text="Cancelar"></RadzenButton>
+    </RadzenStack>
+    <RadzenRow>
+        <RadzenColumn Size="8" Class="rz-p-p rz-border-radius-1">
+             <RadzenStack>
+                <RadzenFormField Text="Seleccione Plataforma" Style="width:100%">
+                    <ChildContent>
+                        <RadzenDropDown Data="@Plataformas"
+                                        @bind-Value="@Model.IdPlataforma"
+                                        TextProperty="Nombre"
+                                        ValueProperty="Id"
+                                        Name="Plataformas"
+                                        AllowClear=true Chips=true
+                                        Disabled="!IsNew"
+                                        DisabledProperty="Disabled">
+
+                        </RadzenDropDown>
+
+                    </ChildContent>
+                    <Helper>
+                        <RadzenCustomValidator Component="Plataformas" Validator="@(() => Model.IdPlataforma > 0)" Text="@(string.Format(REQUIRED_VALIDATOR_TEXT, "Plataforma"))" />
+                        <RadzenCustomValidator Component="Plataformas" Validator="@( ()=> Validate( Model.IdPlataforma ) == false )" Text="Ya existe la plataforma del videojuego" />
+
+                    </Helper>
+                </RadzenFormField>
+             </RadzenStack>
+        </RadzenColumn>
+
+        <RadzenColumn Size="6" Class="rz-p-p rz-border-radius-1">
+            <RadzenFormField Text="Precio" Style="width:100%">
+                <ChildContent>
+                    <RadzenNumeric Name="Precio" Format="c" @bind-Value="Model.Precio" />
+                </ChildContent>
+                <Helper>
+                    <RadzenNumericRangeValidator Component="Precio" Min="0.01" Text="@(string.Format(REQUIRED_VALIDATOR_TEXT, "Precio"))" />
+                </Helper>
+            </RadzenFormField>
+        </RadzenColumn>
+
+        <RadzenColumn Size="3" Class="rz-p-p rz-border-radius-1">
+            
+                <ChildContent>
+                    <RadzenCheckBox Name="Disponible" @bind-Value="Model.Activado" Style="margin-top: 10px;" />
+                    <RadzenLabel Text="Disponible" Component="Disponible" Style="margin-left:5px;vertical-align: middle;margin-top: 10px;" />
+                </ChildContent>
+          
+        </RadzenColumn>
+
+
+    </RadzenRow>
+</RadzenTemplateForm>

@@ -1,0 +1,49 @@
+﻿@inject DialogService DialogService;
+@inject NotificationService NotificationService;
+
+<RadzenTemplateForm TItem="NotesConfirmDialogResponse" Data=@Model Submit="@OnSubmit" InvalidSubmit="@OnInvalidSubmit">
+    <RadzenStack Gap="1rem">
+        <p>¿Estás seguro de que quieres borrar el elemento seleccionado?</p>
+        <RadzenStack Gap="0.5rem" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.SpaceBetween">
+            <RadzenFormField Text="Observaciones" Style="width:100%">
+                <ChildContent>
+                    <RadzenTextArea Name="Notes" @bind-Value="@Model.Notes" aria-label="TextArea" />
+                </ChildContent>
+                <Helper>
+                    <RadzenRequiredValidator Component="Notes" Text="Es obligatorio introducir el motivo de eliminación" />
+                </Helper>
+            </RadzenFormField>
+            <br />
+            <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End">
+                <RadzenButton Text="Eliminar" ButtonType="ButtonType.Submit" ButtonStyle="ButtonStyle.Danger" />
+                <RadzenButton Text="Cancelar" Click="@Close" ButtonStyle="ButtonStyle.Light" />
+            </RadzenStack>
+        </RadzenStack>
+    </RadzenStack>
+</RadzenTemplateForm>
+
+@code {
+    public NotesConfirmDialogResponse Model { get; set; } = new();
+
+    async Task Close()
+    {
+        DialogService.Close(Model);
+    }
+
+    async Task OnSubmit(NotesConfirmDialogResponse data)
+    {
+        data.Confirm = true;
+        DialogService.Close(data);
+    }
+
+    void OnInvalidSubmit(FormInvalidSubmitEventArgs args)
+    {
+        NotificationService.Notify(new NotificationMessage
+        {
+            Severity = NotificationSeverity.Error,
+            Summary = "Se ha producido un error al validar el formulario",
+            Detail = string.Join("<br />", args.Errors.Select(s => s).ToList()),
+            Duration = 4000
+        });
+    }
+}

@@ -1,0 +1,214 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Factura de compra</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            height: 1400px;
+        }
+
+        .container {
+            height: 100%;
+            margin: 0 auto; /* Centrar el contenedor en la página */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .header {
+            display: flex;
+            align-items: flex-end;
+            width: 95%;
+            justify-content: space-between;
+        }
+
+        .header-customer {
+            --s: 30px;
+            --t: 1px;
+            --g: 10px;
+            padding: calc(var(--g) + var(--t));
+            outline: var(--t) solid #000000;
+            outline-offset: calc(-1*var(--t));
+            -webkit-mask: conic-gradient(at var(--s) var(--s),#0000 75%,#000 0) 0 0/calc(100% - var(--s)) calc(100% - var(--s)), linear-gradient(#000 0 0) content-box;
+            transition: .4s;
+            text-align:left;
+        }
+
+        .header-company p {
+            margin-top: 4px;
+            margin-bottom: 4px;
+            font-size: 12pt;
+        }
+
+        .header-company h2 {
+            font-size: 16pt;
+        }
+
+        .header-customer p {
+            margin-top: 4px;
+            margin-bottom: 4px;
+            font-size: 12pt;
+            text-transform: uppercase;
+        }
+        .header-customer {
+            text-transform: uppercase;
+        }
+
+        .footer {
+            text-align: left;
+            font-size: 12pt;
+        }
+
+        .footer-data-protection {
+            font-size: 9pt;
+            font-weight: bold;
+        }
+
+        .content {
+            margin-top: 20px;
+        }
+
+            .content section {
+                margin-top: 20px;
+            }
+
+        .content-header table td {
+            text-align: center;
+        }
+
+        .content-detail table td {
+            border-bottom: hidden;
+            border-left: hidden;
+            border-right: hidden;
+          
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #000;
+            padding: 4px;
+            text-align: center;
+            font-size: 12pt;
+           
+        }
+
+        th {
+            background-color: #f2f2f2;
+            text-align: center;
+        }
+
+        .text-right {
+            text-align: right;
+        }
+
+        .border-hidden {
+            border-bottom: hidden;
+            border-left: hidden;
+            border-right: hidden;
+        }
+
+        .border-bottom-left-hidden {
+            border-bottom: hidden;
+            border-left: hidden;
+        }
+        .firma {
+            height:80px;
+            text-align:left;
+        }
+       
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="content">
+            <div class="header">
+                <div class="header-company">
+                    <h4>IZQUIERDO FP</h4>
+                    <p>AVD.TENOR FLETA 57</p>
+                    <p>50008 ZARAGOZA</p>
+                    <p>Tlf: 976486271</p>
+                    <p>CIF: B99999999</p>
+                    <p>ciclos@izquierdofp.es</p>
+                </div>
+                <div class="header-customer">
+                    <h3>Datos del usuario </h3>
+                    <p>Nombre: #Cliente_nombre#</p>
+                    <p>Email: #Cliente_email#</p>
+                    <p>Telefono: #Cliente_telefono#</p>
+                </div>
+            </div>
+
+            <section class="content-header">
+                <table>
+                    <tr>
+                        <th>Código</th>
+                        <th>DNI</th>
+                        <th>Fecha Alquiler</th>
+                        <th>Fecha Devolución</th>
+                        <th>Dias de alquiler</th>
+                        <th>Forma de pago</th>
+                    </tr>
+                    <tr>
+                        <td>#Cliente_Code#</td>
+                        <td>#Cliente_DNI#</td>
+                        <td>#Alquiler_fecha#</td>
+                        <td>#Alquiler_devolucion#</td>
+                        <td>#Total_dias# Dias</td>
+                        <td>#FormaPago#</td>
+                    </tr>
+                </table>
+            </section>
+
+            <section class="content-detail">
+                <table>
+                    <tr>
+                        <th>Juego</th>
+                        <th>Plataforma</th>
+                        <th>Comentarios</th>
+                        <th>UND.</th>
+                        <th>Precio * Dias</th>
+                        <th>Importe</th>
+                    </tr>
+                    <tr>
+                        <td colspan="6"></td>
+                    </tr>
+                    <!-- Este bloque se debe de iterar en un foreach -->
+                    #Alquileres_Linea#
+                    <!-- Este bloque se debe de iterar en un foreach -->
+                </table>
+            </section>
+
+        </div>
+
+        <div class="footer">
+            <section class="content-footer">
+                <h3>* Una vez firmado, el usuario se compromete a hacer buen uso del o de los videojuego alquilados y se compromete a devolver en la fecha indicada.</h3>
+                <table>
+                    <tr>
+                        <th>Sello y firma de la empresa</th>
+                        <th>Firma del usuario</th>
+                        <th>IVA </th>
+                        <th>Total Importe</th>
+                       
+                    </tr>
+                    <tr class="firma">
+                        <td></td>
+                        <td></td>
+                        <td>21%</td>
+                        <td>#Total#</td>
+                    </tr>
+                   
+                </table>
+            </section>
+            <p class="footer-data-protection">"Conforme a lo establecido en la normativa de Protección de Datos de Carácter Personal le informamos de que sus datos forman parte de un fichero cuyo responsable es CEFOR IZQUIERDO S.L., con la finalidad de que nuestra relación comercial pueda desarrollarse adecuadamente. También nos facilitará la gestión económica de nuestra entidad y nos permitirá poder enviarle información actua sobre nuestros productos y servicios, en el futuro, si no se opone a ello. Se le informa asimismo sobre la posibilidad que Ud. tiene de ejercitar los derechos de acceso, rectificación, cancelación, oposición, limitación y portabilidad en relación con sus datos personales, en los términos establecidos legalmente, solicitándolo a la siguiente dirección: IZQUIERDO FP , AVD.TENOR FLETA 57, 50008 ZARAGOZA. Sus datos no serán cedidos a terceros, salvo en los casos en los que la ley lo permita o exija expresamente."</p>
+        </div>
+    </div>
+</body>
+</html>

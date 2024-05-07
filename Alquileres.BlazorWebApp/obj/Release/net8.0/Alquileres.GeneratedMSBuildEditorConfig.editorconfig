@@ -1,0 +1,171 @@
+is_global = true
+build_property.TargetFramework = net8.0
+build_property.TargetFramework = net8.0
+build_property.TargetPlatformMinVersion = 
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = Alquileres
+build_property.RootNamespace = Alquileres
+build_property.ProjectDir = C:\Work\ERP-de-Videojuegos\Alquileres.BlazorWebApp\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 8.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\Work\ERP-de-Videojuegos\Alquileres.BlazorWebApp
+build_property._RazorSourceGeneratorDebug = 
+
+[C:/Work/ERP-de-Videojuegos/Alquileres.BlazorWebApp/Components/Account/Pages/Login.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xBY2NvdW50XFBhZ2VzXExvZ2luLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Work/ERP-de-Videojuegos/Alquileres.BlazorWebApp/Components/Account/Pages/_Imports.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xBY2NvdW50XFBhZ2VzXF9JbXBvcnRzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Work/ERP-de-Videojuegos/Alquileres.BlazorWebApp/Components/Account/Shared/AccountLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xBY2NvdW50XFNoYXJlZFxBY2NvdW50TGF5b3V0LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Work/ERP-de-Videojuegos/Alquileres.BlazorWebApp/Components/Account/Shared/RedirectToLogin.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xBY2NvdW50XFNoYXJlZFxSZWRpcmVjdFRvTG9naW4ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Work/ERP-de-Videojuegos/Alquileres.BlazorWebApp/Components/Account/Shared/StatusMessage.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xBY2NvdW50XFNoYXJlZFxTdGF0dXNNZXNzYWdlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Work/ERP-de-Videojuegos/Alquileres.BlazorWebApp/Components/App.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xBcHAucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Work/ERP-de-Videojuegos/Alquileres.BlazorWebApp/Components/Layout/EmptyLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcRW1wdHlMYXlvdXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Work/ERP-de-Videojuegos/Alquileres.BlazorWebApp/Components/Pages/Alquiler/AlquilerDetalle.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xBbHF1aWxlclxBbHF1aWxlckRldGFsbGUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Work/ERP-de-Videojuegos/Alquileres.BlazorWebApp/Components/Pages/Alquiler/AlquilerEdit.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xBbHF1aWxlclxBbHF1aWxlckVkaXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Work/ERP-de-Videojuegos/Alquileres.BlazorWebApp/Components/Pages/Alquiler/AlquilerGrid.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xBbHF1aWxlclxBbHF1aWxlckdyaWQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Work/ERP-de-Videojuegos/Alquileres.BlazorWebApp/Components/Pages/Alquiler/LineaAlquilerGrid.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xBbHF1aWxlclxMaW5lYUFscXVpbGVyR3JpZC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Work/ERP-de-Videojuegos/Alquileres.BlazorWebApp/Components/Pages/Cliente/ClienteEdit.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDbGllbnRlXENsaWVudGVFZGl0LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Work/ERP-de-Videojuegos/Alquileres.BlazorWebApp/Components/Pages/Cliente/ClienteGrid.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDbGllbnRlXENsaWVudGVHcmlkLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Work/ERP-de-Videojuegos/Alquileres.BlazorWebApp/Components/Pages/Cliente/DetalleCliente.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDbGllbnRlXERldGFsbGVDbGllbnRlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Work/ERP-de-Videojuegos/Alquileres.BlazorWebApp/Components/Pages/Configuracion/Configuration.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDb25maWd1cmFjaW9uXENvbmZpZ3VyYXRpb24ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Work/ERP-de-Videojuegos/Alquileres.BlazorWebApp/Components/Pages/Configuracion/FormaPagoForm.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDb25maWd1cmFjaW9uXEZvcm1hUGFnb0Zvcm0ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Work/ERP-de-Videojuegos/Alquileres.BlazorWebApp/Components/Pages/Configuracion/GeneroForm.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDb25maWd1cmFjaW9uXEdlbmVyb0Zvcm0ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Work/ERP-de-Videojuegos/Alquileres.BlazorWebApp/Components/Pages/Configuracion/PlataformaForm.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDb25maWd1cmFjaW9uXFBsYXRhZm9ybWFGb3JtLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Work/ERP-de-Videojuegos/Alquileres.BlazorWebApp/Components/Pages/Error.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xFcnJvci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Work/ERP-de-Videojuegos/Alquileres.BlazorWebApp/Components/Pages/Home.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xIb21lLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Work/ERP-de-Videojuegos/Alquileres.BlazorWebApp/Components/Pages/VideoJuego/PrecioVideoJuegoEdit.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xWaWRlb0p1ZWdvXFByZWNpb1ZpZGVvSnVlZ29FZGl0LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Work/ERP-de-Videojuegos/Alquileres.BlazorWebApp/Components/Pages/VideoJuego/VideoJuegoDetalle.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xWaWRlb0p1ZWdvXFZpZGVvSnVlZ29EZXRhbGxlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Work/ERP-de-Videojuegos/Alquileres.BlazorWebApp/Components/Pages/VideoJuego/VideoJuegoEdit.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xWaWRlb0p1ZWdvXFZpZGVvSnVlZ29FZGl0LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Work/ERP-de-Videojuegos/Alquileres.BlazorWebApp/Components/Pages/VideoJuego/VideoJuegoGrid.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xWaWRlb0p1ZWdvXFZpZGVvSnVlZ29HcmlkLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Work/ERP-de-Videojuegos/Alquileres.BlazorWebApp/Components/Routes.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xSb3V0ZXMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Work/ERP-de-Videojuegos/Alquileres.BlazorWebApp/Components/Shared/BusyIndicator.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xTaGFyZWRcQnVzeUluZGljYXRvci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Work/ERP-de-Videojuegos/Alquileres.BlazorWebApp/Components/Shared/CardEffect.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xTaGFyZWRcQ2FyZEVmZmVjdC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Work/ERP-de-Videojuegos/Alquileres.BlazorWebApp/Components/Shared/Configuracion/FormaPagoGrid.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xTaGFyZWRcQ29uZmlndXJhY2lvblxGb3JtYVBhZ29HcmlkLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Work/ERP-de-Videojuegos/Alquileres.BlazorWebApp/Components/Shared/Configuracion/GeneroGrid.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xTaGFyZWRcQ29uZmlndXJhY2lvblxHZW5lcm9HcmlkLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Work/ERP-de-Videojuegos/Alquileres.BlazorWebApp/Components/Shared/Configuracion/PlataformaGrid.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xTaGFyZWRcQ29uZmlndXJhY2lvblxQbGF0YWZvcm1hR3JpZC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Work/ERP-de-Videojuegos/Alquileres.BlazorWebApp/Components/Shared/NotesConfirmDialog.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xTaGFyZWRcTm90ZXNDb25maXJtRGlhbG9nLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Work/ERP-de-Videojuegos/Alquileres.BlazorWebApp/Components/Shared/PdfViewer.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xTaGFyZWRcUGRmVmlld2VyLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Work/ERP-de-Videojuegos/Alquileres.BlazorWebApp/Components/Shared/SharedFormGenerator.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xTaGFyZWRcU2hhcmVkRm9ybUdlbmVyYXRvci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Work/ERP-de-Videojuegos/Alquileres.BlazorWebApp/Components/Shared/SharedGridData.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xTaGFyZWRcU2hhcmVkR3JpZERhdGEucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Work/ERP-de-Videojuegos/Alquileres.BlazorWebApp/Components/_Imports.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xfSW1wb3J0cy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Work/ERP-de-Videojuegos/Alquileres.BlazorWebApp/Components/Layout/MainLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcTWFpbkxheW91dC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-ksoxkfwmpe

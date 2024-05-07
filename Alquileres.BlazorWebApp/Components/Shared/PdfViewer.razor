@@ -1,0 +1,32 @@
+﻿@page "/pdfviewer"
+
+@attribute [Authorize]
+
+<style>
+    .rz-dialog-content {
+        height: 100% !important;
+    }
+
+    #pdf-viewer {
+        width: 100%;
+        height: 100%;
+        border: 1px solid #333;
+        margin: auto;
+    }
+
+    #pdf-viewer iframe {
+        width: 100%;
+        height: 100%;
+    }
+</style>
+
+<div id="pdf-viewer">
+    <iframe src="@pdfDataUri"></iframe>
+</div>
+
+@code {
+    [Parameter]
+    public string Base64data { get; set; } = null!;
+
+    private string pdfDataUri => $"data:application/pdf;base64,{Base64data}";
+}

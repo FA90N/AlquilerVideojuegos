@@ -1,0 +1,82 @@
+﻿@page "/cliente/detalle/{ClienteId:int}"
+@using Alquileres.Application.Models.Queries
+@using Alquileres.Application.Models.Commands
+@inherits BaseComponent
+
+<RadzenStack Gap="1rem">
+    <RadzenRow>
+        <RadzenColumn Size="12" SizeMD="6" Class="rz-p-2 rz-border-radius-1" Style="border: var(--rz-grid-cell-border)">
+            <RadzenText TextStyle="TextStyle.Subtitle1">Datos del cliente</RadzenText>
+            <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center">
+                <RadzenStack Gap="0" Class="rz-text-truncate">
+                    <RadzenText TextStyle="TextStyle.Overline" Class="rz-my-0" Style="color: var(--rz-text-tertiary-color);">Nombre</RadzenText>
+                    <RadzenText TextStyle="TextStyle.Body2" Class="rz-text-truncate"><b>@Cliente.Nombre</b></RadzenText>
+                    <RadzenText TextStyle="TextStyle.Overline" Class="rz-my-0" Style="color: var(--rz-text-tertiary-color);">Apellidos</RadzenText>
+                    <RadzenText TextStyle="TextStyle.Body2" Class="rz-text-truncate"><b>@Cliente.Apellidos</b></RadzenText>
+                    <RadzenText TextStyle="TextStyle.Overline" Class="rz-my-0" Style="color: var(--rz-text-tertiary-color);">DNI</RadzenText>
+                    <RadzenText TextStyle="TextStyle.Body2" Class="rz-text-truncate"><b>@Cliente.Dni</b></RadzenText>
+                    <RadzenText TextStyle="TextStyle.Overline" Class="rz-my-0"  Style="color: var(--rz-text-tertiary-color);">Fecha nacimiento</RadzenText>
+                    <RadzenText TextStyle="TextStyle.Body2" Class="rz-text-truncate" ><b>@(String.Format($"{Cliente.FechaNacimiento:d}"))</b></RadzenText>
+
+                </RadzenStack>
+            </RadzenStack>
+        </RadzenColumn>
+
+
+        <RadzenColumn Size="12" SizeMD="6" Class="rz-p-2 rz-border-radius-1" Style="border: var(--rz-grid-cell-border)">
+            <RadzenText TextStyle="TextStyle.Subtitle1">Otros datos</RadzenText>
+            <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center">
+                <RadzenStack Gap="0" Class="rz-text-truncate">
+                    <RadzenText TextStyle="TextStyle.Overline" Class="rz-my-0" Style="color: var(--rz-text-tertiary-color);">Telefono</RadzenText>
+                    <RadzenText TextStyle="TextStyle.Body2" Class="rz-text-truncate"><b>@Cliente.Telefono</b></RadzenText>
+                    <RadzenText TextStyle="TextStyle.Overline" Class="rz-my-0" Style="color: var(--rz-text-tertiary-color);">Email</RadzenText>
+                    <RadzenText TextStyle="TextStyle.Body2" Class="rz-text-truncate"><b>@Cliente.Email</b></RadzenText>
+                    <RadzenText TextStyle="TextStyle.Overline" Class="rz-my-0" Style="color: var(--rz-text-tertiary-color);">Comentarios</RadzenText>
+                    <RadzenText TextStyle="TextStyle.Body2" Class="rz-text-truncate"><b>@Cliente.Comentario</b></RadzenText>
+                    <RadzenText TextStyle="TextStyle.Overline" Class="rz-my-0" Style="color: var(--rz-text-tertiary-color);">Estado</RadzenText>
+                    <RadzenText TextStyle="TextStyle.Body2" Class="rz-text-truncate">
+                        @if (Cliente.Activado)
+                        {
+                            <b>Activado</b>
+                        }
+                        else
+                        {
+                            <b>No activo</b>
+                        }
+
+                    </RadzenText>
+                </RadzenStack>
+            </RadzenStack>
+        </RadzenColumn>
+
+        <RadzenTabs style="height: 350px">
+
+            <Tabs>
+                <RadzenTabsItem Text="Historial">
+                    <RadzenColumn Size="12" Class="rz-p-2 rz-border-radius-1">
+                        <RadzenDataGrid FilterPopupRenderMode="PopupRenderMode.OnDemand" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
+                                        Data="@listasAlquiler" TItem="AlquilerListDTO" ColumnWidth="200px" Density="Density.Compact" AllowAlternatingRows="false"
+                                        EmptyText="No hay elementos que mostrar">
+                            <Columns>
+                                <RadzenDataGridColumn TItem="AlquilerListDTO" Property="Codigo" Title="Código" Width="80px"/>
+                                <RadzenDataGridColumn TItem="AlquilerListDTO" Property="Fecha" Title="Fecha de Alquiler" FormatString="{0:d}" />
+                                <RadzenDataGridColumn TItem="AlquilerListDTO" Property="FormaPago" Title="Fecha de Pago" />
+                                <RadzenDataGridColumn TItem="AlquilerListDTO" Property="Total" Width="100px" Title="Total"  FormatString="{0:C}" />
+                            </Columns>
+                        </RadzenDataGrid>
+                    </RadzenColumn>
+
+                </RadzenTabsItem>
+
+                <RadzenTabsItem Text="Documento">
+                        <RadzenImage Path="@fileData" Style="width: 300px;" />
+                 </RadzenTabsItem>   
+            </Tabs>
+        </RadzenTabs>
+
+        </RadzenRow>
+
+    <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End" Gap="0.5rem">
+        <RadzenButton Click="@EditarCliente" Variant="Variant.Flat" Text="Editar" Icon="edit" Style="width: 120px" />
+    </RadzenStack>
+</RadzenStack>

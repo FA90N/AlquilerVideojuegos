@@ -1,0 +1,34 @@
+[
+  {
+    "Title": "ALQUILERES",
+    "Description": "Listado de alquileres",
+    "UrlPath": "/alquiler",
+    "ImagePath": "img/en-renta.png",
+    "Icon": "checklist",
+    "GroupName": "GESTIONES"
+  },
+  {
+    "Title": "CLIENTES",
+    "Description": "Listado de clientes",
+    "UrlPath": "/cliente",
+    "ImagePath": "img/cliente.png",
+    "Icon": "perm_identity",
+    "GroupName": "GESTIONES"
+  },
+  {
+    "Title": "VIDEOJUEGOS",
+    "Description": "Listado de videojuegos",
+    "UrlPath": "/videojuego",
+    "ImagePath": "img/consola-de-juego.png",
+    "Icon": "sports_esports",
+    "GroupName": "CONFIGURACIÓN"
+  },
+  {
+    "Title": "CONFIGURACIÓN",
+    "Description": "Configuraciones de las tablas maestras",
+    "UrlPath": "/configuracion",
+    "ImagePath": "img/configuracion.png",
+    "Icon": "settings",
+    "GroupName": "CONFIGURACIÓN"
+  }
+]

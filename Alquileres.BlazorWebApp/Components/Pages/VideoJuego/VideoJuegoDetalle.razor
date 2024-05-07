@@ -1,0 +1,72 @@
+﻿@page "/videojuego/detalle/{VideojuegoId:int}"
+@using Alquileres.Application.Models.Commands
+@using Alquileres.Application.Models.Queries
+@inject Radzen.DialogService dialogService
+@inherits BaseComponent
+
+
+<RadzenStack Gap="1rem">
+    <RadzenRow>
+        <RadzenColumn Size="6" SizeMD="6" Class="rz-p-2 rz-border-radius-1" Style="border: var(--rz-grid-cell-border)">
+            <RadzenText TextStyle="TextStyle.Subtitle1">Detalles: </RadzenText>
+            <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center">
+                <RadzenStack Gap="0" Class="rz-text-truncate">
+                    <RadzenText TextStyle="TextStyle.Overline" Class="rz-mb-0" Style="color: var(--rz-text-tertiary-color);">Fecha de lanzamiento</RadzenText>
+                    <RadzenText TextStyle="TextStyle.Body2" Class="rz-text-truncate"><b>@(String.Format($"{VideoJuego.FechaLanzamiento:d}"))</b></RadzenText>
+                    <RadzenText TextStyle="TextStyle.Overline" Class="rz-mb-0" Style="color: var(--rz-text-tertiary-color);">Volumen</RadzenText>
+                    <RadzenText TextStyle="TextStyle.Body2" Class="rz-text-truncate">
+                        <b>
+                            @if (VideoJuego.Volumen != null)
+                                {
+                                    @($"{VideoJuego.Volumen} GB")
+                                } 
+                        </b>
+                    </RadzenText>
+                    <RadzenText TextStyle="TextStyle.Overline" Class="rz-mb-0" Style="color: var(--rz-text-tertiary-color);">Desarrollador</RadzenText>
+                    <RadzenText TextStyle="TextStyle.Body2" Class="rz-text-truncate"><b>@VideoJuego.Desarrollador</b></RadzenText>
+                    <RadzenText TextStyle="TextStyle.Overline" Class="rz-mb-0" Style="color: var(--rz-text-tertiary-color);">Pegi</RadzenText>
+                    <RadzenText TextStyle="TextStyle.Body2" Class="rz-text-truncate"><b>@VideoJuego.Pegi</b></RadzenText>
+                
+                </RadzenStack>
+            </RadzenStack>
+        </RadzenColumn>
+        <RadzenColumn Size="6" SizeMD="6" Class="rz-p-2 rz-border-radius-1" Style="border: var(--rz-grid-cell-border)">
+            <RadzenText TextStyle="TextStyle.Subtitle1">Videojuego: </RadzenText>
+            <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center">
+                <RadzenStack AlignItems="AlignItems.Center" Class="rz-mx-auto rz-my-6">
+                
+                        <RadzenImage Path="@fileData" Style="width: 15rem "  />
+
+                </RadzenStack>
+            </RadzenStack>
+        </RadzenColumn>
+
+        <RadzenTabs style="height: 300px">
+            <Tabs>
+                <RadzenTabsItem Text="Precios y tarifas">
+                    <RadzenDataGrid FilterPopupRenderMode="PopupRenderMode.OnDemand" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
+                                    Data="@ListaPrecio" TItem="PrecioVideoJuegoListDTO" ColumnWidth="200px" Density="Density.Compact" AllowAlternatingRows="false"
+                                    EmptyText="No hay elementos que mostrar" >
+                        <Columns>
+
+                            <RadzenDataGridColumn TItem="PrecioVideoJuegoListDTO" Property="NombrePlataforma" Title="Plataforma" Width="100px" />
+                            <RadzenDataGridColumn TItem="PrecioVideoJuegoListDTO" Property="Precio" Title="Precio por dia" Width="100px" FormatString="{0:C}" />
+                            <RadzenDataGridColumn TItem="PrecioVideoJuegoListDTO" Property="Activado" Title="En uso" Width="100px" FormatString="{0:C}" >
+                                <Template Context="data">
+                                    <RadzenCheckBox TValue="bool" @bind-Value="@data.Activado" Disabled="true"></RadzenCheckBox>
+                                </Template>
+                            </RadzenDataGridColumn>
+
+                        </Columns>
+                    </RadzenDataGrid>
+                </RadzenTabsItem>
+            </Tabs>
+         </RadzenTabs>
+           
+
+    </RadzenRow>
+
+    <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End" Gap="0.5rem">
+        <RadzenButton Click="@EditVideojuego" Variant="Variant.Flat" Text="Editar" Icon="edit" Style="width: 120px" />
+    </RadzenStack>
+</RadzenStack>

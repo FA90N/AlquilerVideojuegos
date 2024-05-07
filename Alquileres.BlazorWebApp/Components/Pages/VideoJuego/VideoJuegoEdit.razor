@@ -1,0 +1,172 @@
+﻿@page "/videojuego/add"
+@page "/videojuego/edit/{VideoJuegoId:int}"
+
+@using Alquileres.Application.Models.Commands
+@using Alquileres.Application.Models.Queries
+
+@attribute [Authorize]
+@inherits BaseComponent
+
+@{
+    const string REQUIRED_VALIDATOR_TEXT = "El campo {0} es requerido";
+    const string MAXLENGTH_VALIDATOR_TEXT = "La longitud no puede ser superior a los {0} caracteres";
+
+}
+
+<RadzenTemplateForm TItem="VideoJuegoFormDTO" Data="@Model" Submit="@OnSubmit" InvalidSubmit="@OnInvalidSubmit">
+    <RadzenStack Orientation="Orientation.Vertical" Gap="10px">
+        <RadzenCard>
+            <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Right" Gap="10px">
+                <RadzenButton ButtonType="ButtonType.Submit" Icon="save" Text="Guardar" ButtonStyle="ButtonStyle.Success"></RadzenButton>
+                <RadzenButton ButtonStyle="ButtonStyle.Light" Icon="keyboard_return" Click="@Cancel" Text="Volver"></RadzenButton>
+            </RadzenStack>
+
+            <RadzenFieldset AllowCollapse="false">
+                <HeaderTemplate>
+                    <span class="d-inline-flex align-items-center align-middle">
+                        <b>Información del videojuego</b>
+                    </span>
+                </HeaderTemplate>
+
+                <ChildContent>
+                    <RadzenRow Gap="1rem" class="rz-p-0">
+
+             
+                        <RadzenColumn SizeLG="4" SizeMD="4" SizeXS="12">
+                            <RadzenStack>
+                                <RadzenFormField Text="Nombre del videojuego*">
+                                    <ChildContent>
+                                        <RadzenTextBox Name="Nombre" @bind-Value="Model.Nombre" MaxLength="50" />
+                                    </ChildContent>
+                                    <Helper>
+                                        <RadzenRequiredValidator Component="Nombre" Text="@(string.Format(REQUIRED_VALIDATOR_TEXT, "Juego"))" />
+                                        <RadzenLengthValidator Component="Nombre" Max="50" Text="@(string.Format(MAXLENGTH_VALIDATOR_TEXT, "50"))" />
+                                    </Helper>
+                                </RadzenFormField>
+                            </RadzenStack>
+                        </RadzenColumn>
+
+                        <RadzenColumn SizeLG="2" SizeMD="2" SizeXS="12">
+                            <RadzenStack>
+                                <RadzenFormField Text="Fecha de Lanzamiento">
+                                    <ChildContent>
+                                        <RadzenDatePicker Name="FechaLanzamiento" @bind-Value="Model.FechaLanzamiento" ShowTime="false" DateFormat="dd/MM/yyyy" />
+                                    </ChildContent>
+                                </RadzenFormField>
+                            </RadzenStack>
+                        </RadzenColumn>
+
+                        <RadzenColumn SizeLG="3" SizeMD="3" SizeXS="12">
+                            <RadzenStack>
+                                <RadzenFormField Text="Puntuación">
+                                    <ChildContent>
+                                        <RadzenTextBox Name="Pegi"  @bind-Value="Model.Pegi" />
+                                    </ChildContent>
+                                    <Helper>                                       
+                                        <RadzenLengthValidator Component="Pegi" Max="50" Text="@(string.Format(MAXLENGTH_VALIDATOR_TEXT, "50"))" />
+                                    </Helper>
+                                </RadzenFormField>
+                            </RadzenStack>
+                        </RadzenColumn>
+
+                        <RadzenColumn SizeLG="2" SizeMD="2" SizeXS="12">
+                            <RadzenStack>
+                                <RadzenFormField Text="Volumen del juego ">
+                                    <ChildContent>
+                                        <RadzenNumeric Name="Volumen" Format="#.00 GB" @bind-Value="Model.Volumen" />
+                                    </ChildContent>
+                                </RadzenFormField>
+                            </RadzenStack>
+                        </RadzenColumn>
+
+                     
+
+                        <RadzenColumn SizeLG="1" SizeMD="1" SizeXS="12">
+                            <RadzenCheckBox Name="Disponible" @bind-Value="Model.Activado" Style="margin-top: 10px;" />
+                            <RadzenLabel Text="Disponible" Component="Disponible" Style="margin-left:5px;vertical-align: middle;margin-top: 10px;" />
+                        </RadzenColumn>
+
+                        <RadzenColumn SizeLG="3" SizeMD="3" SizeXS="12">
+                            <RadzenStack>
+                                <RadzenFormField Text="Generos*">
+                                    <ChildContent>
+                                        <RadzenDropDown Data="@Generos"
+                                                        @bind-Value="@GenerosSeleccionados"
+                                                        ValueProperty="Id"
+                                                        TextProperty="Nombre"
+                                                        Name="Generos"
+                                                        Multiple=true AllowClear=false Chips=true 
+                                                        DisabledProperty="Disabled"/>
+                                    </ChildContent>
+                                    <Helper>
+                                        <RadzenCustomValidator Component="Generos" Validator="@(() => GenerosSeleccionados.Count > 0)" Text="@(string.Format(REQUIRED_VALIDATOR_TEXT, "Genero"))" />
+                                    </Helper>
+                                </RadzenFormField>
+
+                            </RadzenStack>
+                        </RadzenColumn>
+
+                        <RadzenColumn SizeLG="2" SizeMD="2" SizeXS="12">
+                            <RadzenStack>
+                                <RadzenFormField Text="Desarrolladores">
+                                    <ChildContent>
+                                        <RadzenTextArea Name="Desarrollador" @bind-Value="Model.Desarrollador" MaxLength="50" />
+                                    </ChildContent>
+                                    <Helper>
+                                        <RadzenLengthValidator Component="Desarrollador" Max="50" Text="@(string.Format(MAXLENGTH_VALIDATOR_TEXT, "50"))" />
+                                    </Helper>
+                                </RadzenFormField>
+                            </RadzenStack>
+                        </RadzenColumn>
+
+                        <RadzenColumn SizeLG="4" SizeMD="4" SizeXS="12">
+                            <RadzenStack>
+                                <RadzenFormField Text="Descripción del Videojuego">
+                                    <ChildContent>
+                                        <RadzenTextArea Name="Descripcion" @bind-Value="Model.Descripcion" />
+                                    </ChildContent>
+                                    <Helper>
+                                        <RadzenLengthValidator Component="Descripcion" Max="256" Text="@(string.Format(MAXLENGTH_VALIDATOR_TEXT, "256"))" />
+                                    </Helper>
+                                </RadzenFormField>
+                            </RadzenStack>
+                        </RadzenColumn>
+
+                        <RadzenColumn SizeLG="3" SizeMD="3" SizeXS="12">
+                            <RadzenStack>
+                                <RadzenFormField Text="Imagen">
+                                    <ChildContent>
+                                        <RadzenCard Style="width: 600px">
+                                            <h5 class="mb-4">Imagen del videojuego</h5>
+                                            <InputFile OnChange="@OnInputFileChange" class="mb-4" accept="image/png, image/jpeg, image/jpg, image/bmp" />
+                                            <img src="@fileData" width="180px" />
+ 
+                                        </RadzenCard>
+                                    </ChildContent>
+                                   
+                                </RadzenFormField>
+                            </RadzenStack>
+                        </RadzenColumn>
+                    
+                    </RadzenRow>
+                </ChildContent>
+            </RadzenFieldset>
+        </RadzenCard>
+    </RadzenStack>
+
+    <RadzenTabs Visible="@(!IsNew)">
+        <Tabs>
+            <RadzenTabsItem Text="Plataformas">
+                <SharedGridData @ref="gridPrecio" TItem="PrecioVideoJuegoListDTO" Data="@Precios"
+                                ShowExportButtons="false" ShowCreateButton="true" CreateButtonText="CREAR PRECIOS POR PLATAFORMAS" 
+                                OnAfterRenderAsync="@OnAfterRender" 
+                                OnClickCreateButtonCallback="@CreateLine"
+                                OnClickDeleteRowCallback="@DeleteLineRow"
+                                OnClickEditRowCallback="@EditLineRow"
+                                AllowFiltering="false" AllowPaging="false" PanelHeight="fit-content"
+                                GridHeight="fit-content"></SharedGridData>
+            </RadzenTabsItem> 
+        </Tabs>
+    </RadzenTabs>
+
+</RadzenTemplateForm>

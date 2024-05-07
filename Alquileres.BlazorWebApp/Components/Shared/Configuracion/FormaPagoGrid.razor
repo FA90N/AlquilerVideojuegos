@@ -1,0 +1,84 @@
+﻿@using Alquileres.Application.Commands.FormaPago
+@using Alquileres.Application.Models.Queries
+@using Alquileres.Application.Models.Commands
+@using Alquileres.Application.Queries.FormaPago
+@using Alquileres.Components.Pages.Configuracion
+@inherits BaseComponent
+
+
+
+<SharedGridData @ref="grid" TItem="FormaPagoListDTO"
+                Data="@Data" ShowExportButtons="false"
+                PreviewIcon="false" SelectedItems="@SelectedItems" OnAfterRenderAsync="@OnAfterRender"
+                ShowCreateButton="true" CreateButtonText="CREAR FORMA PAGO"
+                OnClickDeleteRowCallback="DeleteFormaPagoRow"
+                OnClickEditRowCallback="EditFormaPagoRow"
+                OnClickCreateButtonCallback="CreateFormaPago"
+                OnLoadDataCallback="LoadData" TotalCount="@TotalCount"
+                PanelHeight="73vh" GridHeight="63vh">
+</SharedGridData>
+@code {
+    SharedGridData<FormaPagoListDTO> grid;
+
+    public IEnumerable<FormaPagoListDTO> Data { get; set; } = null!;
+
+    public int TotalCount { get; set; }
+
+    public IList<FormaPagoListDTO> SelectedItems { get; set; } = new List<FormaPagoListDTO>();
+
+    int selectedIndex;
+
+    async Task LoadData(LoadDataArgs args = null)
+    {
+        try
+        {
+            var result = await Mediator.Send(new GetFormaPagoQuery(args));
+            Data = result.Item1;
+            TotalCount = result.Item2;
+        }
+        catch (Exception ex)
+        {
+            await SweetAlertHelper.ShowThrowErrorAlertAsync(Swal, ex);
+
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var column = grid.ColumnsCollection.FirstOrDefault();
+            if (column is not null)
+            {
+                column.FilterValue = true;
+                await grid.ReloadData();
+            }
+        }   
+    }
+
+    async Task EditFormaPagoRow(FormaPagoListDTO pago)
+    {
+        var result = await DialogService.OpenAsync<FormaPagoForm>($"Edición de {pago.Id} - {pago.Nombre}",
+         new Dictionary<string, object>() { { "PagoId", pago.Id } }, new DialogOptions() { Width = "1000px", Height = "400px", Resizable = true, Draggable = true, CloseDialogOnOverlayClick = true });
+
+        if (result is bool && (bool)result)
+        {
+            await grid.ReloadData();    
+        }
+    }
+
+    async Task DeleteFormaPagoRow(FormaPagoListDTO pago)
+    {
+        await SweetAlertHelper.ShowDeleteAlertAsync(Swal, async () => await Mediator.Send(new DeleteFormaPagoCommand(pago.Id)));
+        await grid.ReloadData();
+    }
+
+    async Task CreateFormaPago()
+    {
+        var result = await DialogService.OpenAsync<FormaPagoForm>("Crear nueva FormaPago", options: new DialogOptions() { Width = "1000px", Height = "400px", Resizable = true, Draggable = true, CloseDialogOnOverlayClick = true });
+        if (result is bool && (bool)result)
+        {
+            await grid.ReloadData();
+        }
+    }
+}

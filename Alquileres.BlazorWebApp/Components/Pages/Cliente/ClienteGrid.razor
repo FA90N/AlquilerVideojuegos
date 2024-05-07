@@ -1,0 +1,25 @@
+﻿@page "/cliente"
+@using Alquileres.Application.Models.Queries
+@attribute [Authorize]
+@inherits BaseComponent
+
+@{
+    const string PAGE_TITLE = "Clientes";
+}
+
+<PageTitle>@(PageTitleHelper.GetFullAppTitle(PAGE_TITLE))</PageTitle>
+
+
+<SharedGridData 
+                @ref="grid" TItem="ClienteListDTO" Data="@Data"
+                FilterMode="FilterMode.Simple"
+                PreviewIcon="true" ShowExportButtons="false"
+                OnClickCreateButtonCallback="OnCreateCliente"
+                OnClickEditRowCallback="OnEditCliente"
+                OnClickDeleteRowCallback="OnDeleteCliente"
+                OnClickPreviewRowCallback="PreviewRow"
+                SelectedItems="@SelectedItems"
+                OnAfterRenderAsync="@OnAfterRender"
+                OnLoadDataCallback="LoadData" 
+                TotalCount="@TotalCount">
+</SharedGridData>

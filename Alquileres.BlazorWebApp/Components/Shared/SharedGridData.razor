@@ -1,0 +1,270 @@
+﻿@using System.Linq.Dynamic.Core
+@using System.Linq;
+
+@typeparam TItem
+
+<style>
+    td:has(span.backRed) {
+        background-color: #f59e9e !important;
+    }
+</style>
+
+<RadzenCard class="rz-mx-auto" Style="@("height:" + PanelHeight)">
+    @if (ShowCreateButton || ShowExportButtons)
+    {
+        <RadzenStack Orientation="Orientation.Horizontal" Style="margin-bottom: 10px" JustifyContent="JustifyContent.SpaceBetween">
+            @if (ShowCreateButton)
+            {
+                <RadzenButton Icon="add_circle_outline" Text="@CreateButtonText" Click="CreateButton" />
+            }
+            @if (ShowExportButtons)
+            {
+                <div>
+                    @if (ShowSplitButton)
+                    {
+                        <RadzenSplitButton Click=@(args => OnClickSplitButton(args)) Text="@(SplitButtonLabel)" ButtonStyle="ButtonStyle.Secondary">
+                            <ChildContent>
+                                @foreach (var splitButtonItem in SplitButtonItems)
+                                {
+                                    <RadzenSplitButtonItem Text="@(splitButtonItem.Key)" Value="@(splitButtonItem.Value)" />
+                                }
+                            </ChildContent>
+                        </RadzenSplitButton>
+                    }
+                    @if (ShowExtraButton)
+                    {
+                        <RadzenButton Icon="format_list_numbered_rtl" Text="@ExtraButtonLabel" Click="ExtraButtonClick" />
+                    }
+                    <RadzenButton Icon="description" Text="Exportar a Excel" Click="@(async (args) => await OnClickExportData(ExportDataType.Excel))" />
+                    <RadzenButton Icon="description" Text="Exportar a PDF" Click="@(async (args) => await OnClickExportData(ExportDataType.Pdf))" />
+                </div>
+            }
+        </RadzenStack>
+    }
+    <RadzenDataGrid @ref="grid" @bind-Value="SelectedItems" Style="@("height:" + GridHeight)" Data="Data" TItem="TItem" Density="Density.Compact"
+        IsLoading="@IsLoading"
+        ColumnWidth="200px"
+        
+        AllowRowSelectOnRowClick="@AllowRowSelectOnRowClick"
+        FilterPopupRenderMode="PopupRenderMode.OnDemand"
+        FilterCaseSensitivity="FilterCaseSensitivity.Default"
+        AllowFiltering="@AllowFiltering"
+        PagerHorizontalAlign="HorizontalAlign.Center"
+        AllowColumnResize="true"
+        AllowPaging="@AllowPaging"
+        AllowSorting="true"
+        AllowColumnReorder="true"
+        AllowAlternatingRows="true"
+        AllowColumnPicking="true"
+        PickedColumnsChanged="OnPickedColumnsChanged"
+        ShowPagingSummary="@AllowPaging"
+        PageSizeOptions="@PageSizeOptions"
+        CellContextMenu="@CellContextMenu"
+        FilterMode="@FilterMode"
+        SelectionMode="DataGridSelectionMode.Multiple"
+        RowSelect="OnRowSelected"
+        RowDeselect="RowDeselect"
+        CellClick="CellClick"
+        Count="@TotalCount"
+        PageSize="@PageSize"
+        PagingSummaryFormat="Página {0} de {1} <b>({2} total de filas)</b>"
+        LoadData="@LoadData"
+        PageSizeText="Filas por página"
+        AndOperatorText="Y"
+        EqualsText="Igual a"
+        NotEqualsText="No es igual a"
+        LessThanText="Menor que"
+        LessThanOrEqualsText="Menor o igual que"
+        GreaterThanText="Mayor que"
+        GreaterThanOrEqualsText="Mayor o igual que"
+        IsNullText="Es nulo"
+        IsNotNullText="No es nulo"
+        OrOperatorText="O"
+        ContainsText="Contiene"
+        DoesNotContainText="No contiene"
+        StartsWithText="Inicia con"
+        EndsWithText="Termina con"
+        ClearFilterText="Limpiar"
+        ApplyFilterText="Aplicar"
+        FilterText="Filtrar"
+        IsEmptyText="Está vacío"
+        IsNotEmptyText="No está vacío"
+        ColumnsShowingText="Columnas que muestran"
+        AllColumnsText="Todas"
+        NextPageTitle="Siguiente página"
+        NextPageAriaLabel="Siguiente página"
+        PrevPageTitle="Página anterior"
+        PrevPageAriaLabel="Página anterior"
+        LastPageTitle="Última página"
+        LastPageAriaLabel="Última página"
+        FirstPageTitle="Primera página"
+        FirstPageAriaLabel="Primera página"
+        PageTitleFormat="Página {0}"
+        PageAriaLabelFormat="Página {0}">
+        
+        <EmptyTemplate>
+            <lottie-player src="https://lottie.host/bc20e676-e86c-4135-b5e1-3df622317a25/m7KVLVaSVM.json" background="##fff" speed="1" style="width: 300px; height: 300px; margin: 0px auto;" loop autoplay direction="1" mode="normal"></lottie-player>
+            <RadzenText Style="text-align: center;" Text="No hay resultados para mostrar. . ." />
+        </EmptyTemplate>
+
+        <LoadingTemplate>
+            <RadzenStack>
+                <RadzenProgressBarCircular ProgressBarStyle="ProgressBarStyle.Primary"
+                                           Style="width: 80px; height: 80px"
+                                           Value="100"
+                                           ShowValue="false"
+                                           Mode="ProgressBarMode.Indeterminate" />
+                <RadzenText Text="Cargando. . ." />
+            </RadzenStack>
+        </LoadingTemplate>
+
+        <Columns>
+            @* Botonera por línea *@
+            @if (PreviewIcon || ShowEditButton || ShowDeleteButton)
+            {
+                <RadzenDataGridColumn Width="120px" 
+                    TItem="TItem"
+                    Context="item"
+                    Filterable="false"
+                    Sortable="false"
+                    TextAlign="TextAlign.Center"
+                    Resizable="false"
+                    Frozen="true"
+                    Pickable="false"
+                    Reorderable="false"
+                    FrozenPosition="FrozenColumnPosition.Left">
+                    <Template Context="item">
+                        @if (PreviewIcon)
+                        {
+                            <RadzenButton ButtonStyle="ButtonStyle.Info" 
+                                Icon="visibility"
+                                Variant="Variant.Flat"
+                                Shade="Shade.Lighter"
+                                Size="ButtonSize.Small"
+                                class="my-1 ms-1"
+                                Click="@(args => PreviewRow(item))"
+                                @onclick:stopPropagation="true" />
+                        }
+                        @if (ShowEditButton)
+                        {
+                            <RadzenButton Icon="edit"
+                                ButtonStyle="ButtonStyle.Light"
+                                Variant="Variant.Flat"
+                                Size="ButtonSize.Small"
+                                class="my-1 ms-1"
+                                Click="@(args => EditRow(item))"
+                                @onclick:stopPropagation="true" />
+                        }
+                        @if (ShowDeleteButton)
+                        {
+                            <RadzenButton ButtonStyle="ButtonStyle.Danger"
+                                Icon="delete"
+                                Variant="Variant.Flat"
+                                Shade="Shade.Lighter"
+                                Size="ButtonSize.Small"
+                                class="my-1 ms-1"
+                                Click="@(args => DeleteRow(item))"
+                                @onclick:stopPropagation="true" />
+                        }
+                    </Template>
+                </RadzenDataGridColumn>
+            }
+
+            @* Checkbox para selección de fila *@
+            @if (AllowRowSelectOnRowClick)
+            {
+                <RadzenDataGridColumn TItem="TItem" Width="60px" MinWidth="60px" Sortable="false" Filterable="false" Resizable="false">
+                    <HeaderTemplate>
+                        <RadzenCheckBox TriState="false" TValue="bool?"
+                            Value="@(!SelectedItems.Any() ? false : !Data.All(i => SelectedItems.Contains(i)) ? null : Data.Any(i => SelectedItems.Contains(i)))"
+                            Change="@(args => OnChangeHeaderTemplateRadzenCheckBox(args))" />
+                    </HeaderTemplate>
+                    <Template Context="data">
+                        <RadzenCheckBox TriState="false" Value="@(SelectedItems.Contains(data))" TValue="bool" Change=@(args => OnChangeTemplateRadzenCheckBox(args, data)) />
+                    </Template>
+                </RadzenDataGridColumn>
+            }
+
+            @foreach (var item in DisplayNameAttributesHelper.GetProperties(typeof(TItem)))
+            {
+                @if (DisplayNameAttributesHelper.IsBoolType(item))
+                {
+                    <RadzenDataGridColumn TItem="TItem" Resizable="false" Width="@DisplayNameAttributesHelper.GetWidth(item)" FormatString="@DisplayNameAttributesHelper.GetFormatString(item)" Property="@item.Name" Context="item" Title="@DisplayNameAttributesHelper.GetDisplayNameFromPropertyInfo(item)" TextAlign="@DisplayNameAttributesHelper.GetAlign(item.PropertyType)">
+                        <Template Context="data">
+                            <RadzenCheckBox TValue="bool" Value="@((bool)item.GetValue(data))" TriState="true" Disabled="true" />
+                        </Template> 
+                    </RadzenDataGridColumn>
+                }
+                else
+                {
+                    var order = DisplayNameAttributesHelper.GetSortOrder(item);
+                    var hasFooter = DisplayNameAttributesHelper.GetFooter(item);
+                    
+                    if (order.HasValue)
+                    {
+                        <RadzenDataGridColumn TItem="TItem" Resizable="true" SortOrder="order" Width="@DisplayNameAttributesHelper.GetWidth(item)" FormatString="@DisplayNameAttributesHelper.GetFormatString(item)" Property="@item.Name" Context="item" Title="@DisplayNameAttributesHelper.GetDisplayNameFromPropertyInfo(item)" TextAlign="@DisplayNameAttributesHelper.GetAlign(item.PropertyType)">
+                           <Template Context="data">
+                                @if (typeof(TItem).GetProperty(item.Name).GetValue(data) != null && typeof(TItem).GetProperty(item.Name).GetValue(data).GetType() == typeof(DateTime))
+                                {
+                                    @String.Format("{0:dd/MM/yyyy}", typeof(TItem).GetProperty(item.Name).GetValue(data))
+                                }
+                                else
+                                {
+                                    if (string.IsNullOrEmpty(DisplayNameAttributesHelper.GetFormatString(item)))
+                                    {
+                                        @typeof(TItem).GetProperty(item.Name).GetValue(data)
+
+                                    }
+                                    else
+                                    {
+                                        @String.Format(DisplayNameAttributesHelper.GetFormatString(item), typeof(TItem).GetProperty(item.Name).GetValue(data))
+                                    }
+                                }
+                            </Template>
+                        </RadzenDataGridColumn>
+                    }
+                    else
+                    {
+                        <RadzenDataGridColumn TItem="TItem" Resizable="true" Width="@DisplayNameAttributesHelper.GetWidth(item)" FormatString="@DisplayNameAttributesHelper.GetFormatString(item)" Property="@item.Name" Context="item" Title="@DisplayNameAttributesHelper.GetDisplayNameFromPropertyInfo(item)" TextAlign="@DisplayNameAttributesHelper.GetAlign(item.PropertyType)">
+                            <Template Context="data">
+
+                                @if (typeof(TItem).GetProperty("Overflow") is not null && typeof(TItem).GetProperty("Overflow").Name == "Overflow" && (bool)typeof(TItem).GetProperty("Overflow").GetValue(data) == true)
+                                {
+                                    <span class="backRed">@(typeof(TItem).GetProperty(item.Name).GetValue(data))</span>
+                                }
+                                else
+                                {
+                                    if (string.IsNullOrEmpty(DisplayNameAttributesHelper.GetFormatString(item)))
+                                    {
+                                        @typeof(TItem).GetProperty(item.Name).GetValue(data)
+
+                                    }
+                                    else
+                                    {
+                                        @String.Format(DisplayNameAttributesHelper.GetFormatString(item), typeof(TItem).GetProperty(item.Name).GetValue(data))
+                                    }
+                                }
+                            </Template>
+                            <FooterTemplate>
+                                @if(hasFooter)
+                                {
+                                    @DisplayNameAttributesHelper.GetFooterText(item)
+
+                                    @if (Data != null)
+                                    {
+                                        <b>&nbsp;</b>
+                                        <b>@String.Format(new System.Globalization.CultureInfo("es-ES"), $"{DisplayNameAttributesHelper.GetFormatString(item)}", Data.AsQueryable().Sum(item.Name))
+                                        </b>
+                                    }
+                                }
+                            </FooterTemplate>
+                        </RadzenDataGridColumn>
+                    }
+                }
+            }
+            
+            
+        </Columns>
+    </RadzenDataGrid>
+</RadzenCard>
+                    

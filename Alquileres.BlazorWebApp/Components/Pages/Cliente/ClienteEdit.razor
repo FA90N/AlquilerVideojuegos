@@ -1,0 +1,211 @@
+﻿@page "/cliente/add"
+@page "/cliente/edit/{ClienteId:int}"
+
+@using Alquileres.Application.Models.Commands
+@using Alquileres.Application.Models.Queries
+@attribute [Authorize]
+@inherits BaseComponent
+
+@{
+    const string REQUIRED_VALIDATOR_TEXT = "El campo {0} es requerido";
+    const string MAXLENGTH_VALIDATOR_TEXT = "La longitud no puede ser superior a los {0} caracteres";
+    const string MOVIL_VALIDATOR_TEXT = "Eso no es número de telefono/movil y debe tener 9 cifras";
+}
+
+<RadzenTemplateForm TItem="ClienteFormDTO" Data="@Model" Submit="@OnSubmit" InvalidSubmit="@OnInvalidSubmit">
+    <RadzenStack Orientation="Orientation.Vertical" Gap="10px">
+        <RadzenCard>
+            <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Right" Gap="10px">
+                    <RadzenButton ButtonType="ButtonType.Submit" Icon="save" Text="Guardar" ButtonStyle="ButtonStyle.Success"></RadzenButton>
+                <RadzenButton ButtonStyle="ButtonStyle.Light" Icon=" keyboard_return" Click="@Cancel" Text="Volver"></RadzenButton>
+            </RadzenStack>
+
+            <RadzenFieldset AllowCollapse="false">
+                <HeaderTemplate>
+                    <span class="d-inline-flex align-items-center align-middle">
+                        <b>Datos del cliente</b>
+                    </span>
+                </HeaderTemplate>
+
+                <ChildContent>
+                    <RadzenRow Gap="1rem" class="rz-p-0">
+
+                        <RadzenColumn SizeLG="2" SizeMD="2" SizeXS="12">
+                            <RadzenStack>
+                                <RadzenFormField Text="Código">
+                                    <ChildContent>
+                                        <RadzenTextBox Name="Code" @bind-Value="Model.Code" Disabled="true" />
+                                    </ChildContent>
+                                </RadzenFormField>
+                            </RadzenStack>
+                        </RadzenColumn>
+
+                        <RadzenColumn SizeLG="2" SizeMD="2" SizeXS="12">
+                            <RadzenStack>
+                                <RadzenFormField Text="Fecha Alta">
+                                    <ChildContent>
+                                        <RadzenDatePicker Name="CreateDate" ShowCalendarWeek @bind-Value="Model.FechaAlta" Disabled="true" ShowTime="false" DateFormat="dd/MM/yyyy" />
+                                    </ChildContent>
+                                    
+                                </RadzenFormField>
+                            </RadzenStack>
+                        </RadzenColumn>
+
+                        <RadzenColumn SizeLG="3" SizeMD="3" SizeXS="12">
+                            <RadzenStack>
+                                <RadzenFormField Text="Nombre*" >
+                                    <ChildContent>
+                                        <RadzenTextBox Name="Nombre" @bind-Value="Model.Nombre" MaxLength="35" />
+                                    </ChildContent>
+                                    <Helper>
+                                        <RadzenRequiredValidator Component="Nombre" Text="@(string.Format(REQUIRED_VALIDATOR_TEXT, "Nombre "))" />
+                                        <RadzenLengthValidator Component="Nombre" Max="35" Text="@(string.Format(MAXLENGTH_VALIDATOR_TEXT, "35"))" />
+                                    </Helper>
+                                </RadzenFormField>
+                            </RadzenStack>
+                        </RadzenColumn>
+
+                        <RadzenColumn SizeLG="5" SizeMD="5" SizeXS="12">
+                            <RadzenStack>
+                                <RadzenFormField Text="Apellidos*" >
+                                    <ChildContent>
+                                        <RadzenTextBox Name="Apellidos" @bind-Value="Model.Apellidos" MaxLength="50" />
+                                    </ChildContent>
+
+                                    <Helper>
+                                        <RadzenRequiredValidator Component="Apellidos" Text="@(string.Format(REQUIRED_VALIDATOR_TEXT, "Apellidos"))" />
+                                        <RadzenLengthValidator Component="Apellidos" Max="50" Text="@(string.Format(MAXLENGTH_VALIDATOR_TEXT, "50"))" />
+                                    </Helper>
+                                </RadzenFormField>
+                            </RadzenStack>
+                        </RadzenColumn>
+
+                        
+
+                        <RadzenColumn SizeLG="3" SizeMD="3" SizeXS="12">
+                            <RadzenStack>
+                                <RadzenFormField Text="DNI/NIE*" >
+                                    <ChildContent>
+                                        <RadzenTextBox Name="DNI" @bind-Value="Model.Dni" MaxLength="9" />
+                                    </ChildContent>
+
+                                    <Helper>
+                                        <RadzenRequiredValidator Component="DNI" Text="@(string.Format(REQUIRED_VALIDATOR_TEXT, "DNI"))" />
+                                        <RadzenLengthValidator Component="DNI" Min="9" Text="La longitud del DNI debe tener 9 carácteres" />
+                                        <RadzenCustomValidator Component="DNI" Validator="@( ()=> ComprobarDNI( Model.Dni ) == false )" Text="El DNI ya existe" />
+                                    </Helper>
+                                </RadzenFormField>
+                            </RadzenStack>
+                        </RadzenColumn>
+
+                        <RadzenColumn SizeLG="2" SizeMD="2" SizeXS="12">
+                            <RadzenStack>
+                                <RadzenFormField Text="Fecha de nacimiento">
+                                    <ChildContent>
+                                        <RadzenDatePicker Name="FechaNacimiento" @bind-Value="Model.FechaNacimiento" ShowTime="false" DateFormat="dd/MM/yyyy" />
+                                    </ChildContent>
+                                </RadzenFormField>
+                            </RadzenStack>
+
+                        </RadzenColumn >
+                            
+
+                        <RadzenColumn SizeLG="6" SizeMD="6" SizeXS="12">
+
+                            <RadzenStack>
+                                <RadzenFormField Text="Comentarios">
+                                    <ChildContent>
+                                        <RadzenTextArea Name="Comentarios" @bind-Value="Model.Comentario" />
+                                    </ChildContent>
+                                </RadzenFormField>
+                            </RadzenStack>
+
+                        </RadzenColumn>
+
+                        <RadzenColumn SizeLG="1" SizeMD="1" SizeXS="12">
+                            <RadzenCheckBox Name="Active" @bind-Value="Model.Activado" Style="margin-top: 10px;" />
+                            <RadzenLabel Text="En uso" Component="Active" Style="margin-left:5px;vertical-align: middle;margin-top: 10px;" />
+                        </RadzenColumn>
+
+
+                    </RadzenRow>
+
+                </ChildContent>
+
+            </RadzenFieldset>
+
+
+            
+             <RadzenFieldset AllowCollapse="false">
+                <HeaderTemplate>
+                    <span class="d-inline-flex align-items-center align-middle">
+                        <b>Contactos</b>
+                    </span>
+                </HeaderTemplate>
+                <ChildContent>
+                    <RadzenRow Gap="1rem" Class="rz-p-0">
+
+                        <RadzenColumn SizeLG="4" SizeMD="4" SizeXS="12">
+
+                            <RadzenStack>
+                                <RadzenFormField Text="Teléfono/Móvil*" >
+                                    <ChildContent>
+                                        <RadzenTextBox Name="Telefono" @bind-Value="Model.Telefono" MaxLength="9" />
+                                        
+                                    </ChildContent>
+                                    <Helper>
+                                       
+                                        <RadzenRegexValidator Component="Telefono" Text="@(string.Format(MOVIL_VALIDATOR_TEXT, "9"))" Pattern="^[9|6|7][0-9]{8}$" Style="position: absolute" />
+                                    </Helper>
+
+                                </RadzenFormField>
+                            </RadzenStack>
+
+                        </RadzenColumn>
+
+                        <RadzenColumn SizeLG="4" SizeMD="4" SizeXS="12">
+
+                            <RadzenStack>
+                                <RadzenFormField Text="Correo electrónico*">
+                                    <ChildContent>
+                                        <RadzenTextBox Name="email" @bind-Value="Model.Email" MaxLength="50" />
+                                        
+                                    </ChildContent>
+                                    <Helper>
+                                        <RadzenLengthValidator Component="email" Max="50" Text="@(string.Format(MAXLENGTH_VALIDATOR_TEXT, "50"))" />
+                                        <RadzenEmailValidator Component="email" Text="Email no valido" />
+                                    </Helper>
+                                </RadzenFormField>
+                            </RadzenStack>
+
+                        </RadzenColumn>
+                        <RadzenColumn SizeLG="4" SizeMD="4" SizeXS="12">
+                            <RadzenStack>
+                                <ChildContent>
+                                    <RadzenCard Style="width: 600px">
+                                        <h5 class="mb-4">Documento DNI:</h5>
+                                        <InputFile OnChange="@OnInputFileChange" class="mb-4" accept="image/png, image/jpeg, image/jpg, image/bmp" />
+                                        <img src="@fileData" width="300px" />
+                                    </RadzenCard>
+                                </ChildContent>
+                            </RadzenStack>
+                        </RadzenColumn>
+
+
+                    </RadzenRow>
+
+                    <RadzenRow>
+                        <RadzenColumn SizeLG="12" SizeMD="12" SizeXS="12">
+                            <RadzenStack Gap="1rem" Orientation="Orientation.Horizontal" Wrap="FlexWrap.Wrap">
+                                <RadzenText TextAlign="TextAlign.Justify" Style="margin-right: 8px; margin-top: 20px;" TextStyle="TextStyle.Subtitle1">*Rellena al menos un campo de contactos.</RadzenText>
+                            </RadzenStack>
+                        </RadzenColumn>
+                    </RadzenRow>
+                </ChildContent>
+            </RadzenFieldset>
+
+        </RadzenCard>
+
+    </RadzenStack>
+
+</RadzenTemplateForm>

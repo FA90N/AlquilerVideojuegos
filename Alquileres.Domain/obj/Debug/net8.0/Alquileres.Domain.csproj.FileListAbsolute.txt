@@ -1,0 +1,15 @@
+C:\Work\ERP-de-Videojuegos\Alquileres.Domain\bin\Debug\net8.0\Alquileres.Domain.deps.json
+C:\Work\ERP-de-Videojuegos\Alquileres.Domain\bin\Debug\net8.0\Alquileres.Domain.runtimeconfig.json
+C:\Work\ERP-de-Videojuegos\Alquileres.Domain\bin\Debug\net8.0\Alquileres.Domain.dll
+C:\Work\ERP-de-Videojuegos\Alquileres.Domain\bin\Debug\net8.0\Alquileres.Domain.pdb
+C:\Work\ERP-de-Videojuegos\Alquileres.Domain\obj\Debug\net8.0\Alquileres.Domain.csproj.AssemblyReference.cache
+C:\Work\ERP-de-Videojuegos\Alquileres.Domain\obj\Debug\net8.0\Alquileres.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Work\ERP-de-Videojuegos\Alquileres.Domain\obj\Debug\net8.0\Alquileres.Domain.AssemblyInfoInputs.cache
+C:\Work\ERP-de-Videojuegos\Alquileres.Domain\obj\Debug\net8.0\Alquileres.Domain.AssemblyInfo.cs
+C:\Work\ERP-de-Videojuegos\Alquileres.Domain\obj\Debug\net8.0\Alquileres.Domain.csproj.CoreCompileInputs.cache
+C:\Work\ERP-de-Videojuegos\Alquileres.Domain\obj\Debug\net8.0\Alquileres.Domain.sourcelink.json
+C:\Work\ERP-de-Videojuegos\Alquileres.Domain\obj\Debug\net8.0\Alquileres.Domain.dll
+C:\Work\ERP-de-Videojuegos\Alquileres.Domain\obj\Debug\net8.0\refint\Alquileres.Domain.dll
+C:\Work\ERP-de-Videojuegos\Alquileres.Domain\obj\Debug\net8.0\Alquileres.Domain.pdb
+C:\Work\ERP-de-Videojuegos\Alquileres.Domain\obj\Debug\net8.0\Alquileres.Domain.genruntimeconfig.cache
+C:\Work\ERP-de-Videojuegos\Alquileres.Domain\obj\Debug\net8.0\ref\Alquileres.Domain.dll

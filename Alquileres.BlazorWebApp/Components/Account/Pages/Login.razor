@@ -1,0 +1,235 @@
+﻿@page "/Account/Login"
+
+@using System.ComponentModel.DataAnnotations
+@using Microsoft.AspNetCore.Authentication
+@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<IdentityUser> SignInManager
+@inject ILogger<Login> Logger
+@inject NavigationManager NavigationManager
+@inject IdentityRedirectManager RedirectManager
+
+<PageTitle>Alquileres - Iniciar sesión</PageTitle>
+
+<style type="text/css">
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Comic Sans MS','Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
+
+    body {
+        display: block;
+        justify-content: center;
+        align-items: center;
+       
+    }
+
+    section {
+        position: relative;
+        width: 100vw;
+        height: 92.92vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 2px;
+        flex-wrap: wrap;
+        overflow: hidden;
+
+    }
+
+    .signin {
+        background-color: #d2d3f7;
+        padding: 25px 40px;
+        width: 380px;
+        border-radius:30px;
+        /* border: 1px solid #329394;
+        box-shadow: 2px 2px 2px #459B9B; */
+    }
+
+    .signin h4{
+        margin-bottom: 15px;
+    }
+
+    section .signin .form .inputBox {
+        position: relative;
+        width: 100%;
+    }
+
+        section .signin .form .inputBox input {
+            position: relative;
+            width: 100%;
+            background: #ecd2fa;
+            border: none;
+            outline: none;
+            padding: 15px 10px ;
+            border-radius: 10px;
+            color: #000;
+            font-weight: 500;
+            font-size: 1em;
+            
+        }
+
+  
+
+        section .signin .form .inputBox i {
+            left: 0;
+            font-style: normal;
+            pointer-events: none;
+            border-radius: 30px;
+        }
+  
+    .texto
+    {
+        color: #613875;
+    }
+
+    .remember {
+        padding: 20px 0 10px 0;
+    }
+
+    .remember input{
+        top: 2px;
+        position: relative;
+    }
+
+    .bottomInfo {
+        width: 100%;
+        background-color: #ddcafa;
+        text-align: center;
+        position: absolute;
+        bottom: 0px;
+    }
+
+    .bottomInfo span{
+        font-size:1rem;
+        display: block;
+        padding: 15px 0;
+    }
+
+    .bottomInfo a{
+        color: black;
+        font-weight: 600;
+    }
+
+    .background {
+        /* background: #98CFD0; */
+        background-image: url(img/background.jpg);
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+
+    .background-before {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #98CFD099;
+        z-index: 0;
+    }
+    
+</style>
+
+<div class="background"></div>
+<div class="background-before"></div>
+
+<section>
+    <div class="signin">
+        <EditForm Model="Input" method="post" OnValidSubmit="LoginUser" FormName="login">
+
+            <h3 class="text-center texto">Sistema de Gestión </h3>
+            <h3 class="text-center texto">GamesPlay</h3>
+
+            <div class="form">
+
+                <StatusMessage Message="@errorMessage"/>
+                <DataAnnotationsValidator />
+                
+
+                <div class="inputBox">
+                    <i class="texto">Email : </i>
+                    <InputText @bind-Value="Input.Email" autocomplete="username"  aria-required="true"  />
+                    <ValidationMessage For="() => Input.Email" class="text-danger" />
+                      
+                   
+                </div>
+                <div class="inputBox">
+                    <i class="texto">Contraseña: </i>
+                    <InputText type="password" @bind-Value="Input.Password" autocomplete="current-password" aria-required="true"  />
+                    <ValidationMessage For="() => Input.Password" class="text-danger" />
+                </div>
+                <div class="remember">
+                    <span class="texto">Recordarme</span>
+                    <InputCheckbox @bind-Value="Input.RememberMe" />
+                </div>
+
+                <div class="inputBox">
+                    <RadzenButton Style="width: 100%; height: 45px;" ButtonType="ButtonType.Submit" Icon="lock_open" Text="Acceder" />
+                </div>
+            </div>
+        </EditForm>
+    </div>
+</section>
+
+<div class="bottomInfo">
+    <span>Sistema de gestión de videojuegos desarrollado por Leyan Xia</span>
+</div>
+
+
+@code {
+
+    private string? errorMessage;
+
+    [CascadingParameter]
+    private HttpContext HttpContext { get; set; } = default!;
+
+    [SupplyParameterFromForm]
+    private InputModel Input { get; set; } = new();
+
+    [SupplyParameterFromQuery]
+    private string? ReturnUrl { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (HttpMethods.IsGet(HttpContext.Request.Method))
+        {
+          
+            await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
+        }
+    }
+
+    public async Task LoginUser()
+    {
+        var result = await SignInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+        if (result.Succeeded)
+        {
+            RedirectManager.RedirectTo(ReturnUrl);
+        }
+        else
+        {
+            errorMessage = "Email o contraseña incorrecta";
+        }
+    }
+
+    private sealed class InputModel
+    {
+        [Required(ErrorMessage = "El Email es requerido")]
+        [EmailAddress(ErrorMessage = "El formato del Email es incorrecto")]
+        public string Email { get; set; } = "";
+
+        [Required(ErrorMessage = "La Contraseña es requerido")]
+        [DataType(DataType.Password)]
+        public string Password { get; set; } = "";
+
+        [Display(Name = "Remember me?")]
+        public bool RememberMe { get; set; } = true;
+    }
+}

@@ -1,0 +1,82 @@
+﻿@typeparam TItem
+
+<RadzenTemplateForm TItem="TItem" Data="@Model" Submit="@OnSubmit" InvalidSubmit="@OnInvalidSubmit">
+    <RadzenCard class="rz-my-3 rz-mx-auto">
+        <RadzenRow Class="rz-px-4">
+            <RadzenColumn Size="9">
+                <h3>@PageTitle</h3>
+            </RadzenColumn>
+            <RadzenColumn Size="3">
+                <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Right" Gap="10px">
+                    <RadzenButton ButtonType="ButtonType.Submit" Icon="save" ButtonStyle="ButtonStyle.Success">Guardar</RadzenButton>
+                    <RadzenButton ButtonStyle="ButtonStyle.Light" Icon="cancel" Click="@OnCancel">Cancelar</RadzenButton>
+                </RadzenStack>
+            </RadzenColumn>
+        </RadzenRow>
+
+        <RadzenRow Gap="2rem" class="rz-p-0">
+            <RadzenColumn Size="6">
+                <RadzenStack Gap="5px">
+                    @* @foreach (var item in DisplayNameAttributesHelper.GetProperties(typeof(TItem)))
+                    {
+                        var name = DisplayNameAttributesHelper.GetDisplayNameFromPropertyInfo(item);
+                        var label = DisplayNameAttributesHelper.GetDisplayLabelFromPropertyInfo(item);
+
+                        <RadzenFormField Text="@label" Style="width: 100%;">
+                            <ChildContent>
+                                <RadzenTextBox Style="width: 100%;" Name="@name" @bind-Value="item" />
+                            </ChildContent>
+                            <Helper>
+                                <RadzenRequiredValidator Component="@name" Text="@(string.Format(REQUIRED_VALIDATOR_TEXT, "Código"))" />
+                                <RadzenLengthValidator Component="@name" Max="15" Text="@(string.Format(MAXLENGTH_VALIDATOR_TEXT, "15"))" />
+                            </Helper>
+                        </RadzenFormField>
+                    } *@
+                </RadzenStack>
+            </RadzenColumn>
+            <RadzenColumn Size="6">
+                <RadzenStack Gap="5px">
+
+                </RadzenStack>
+            </RadzenColumn>
+        </RadzenRow>
+    </RadzenCard>
+</RadzenTemplateForm>
+
+@code {
+    [Parameter]
+    public TItem Model { get; set; }
+
+    [Parameter]
+    public string PageTitle { get; set; } = null!;
+
+    [Parameter]
+    public EventCallback<TItem> OnSubmitCallback { get; set; }
+
+    [Parameter]
+    public EventCallback OnCancelCallback { get; set; }
+
+    [Inject]
+    public NotificationService NotificationService { get; set; } = null!;
+
+    async Task OnSubmit()
+    {
+        await OnSubmitCallback.InvokeAsync(Model);
+    }
+
+    void OnInvalidSubmit(FormInvalidSubmitEventArgs args)
+    {
+        NotificationService.Notify(new NotificationMessage
+        {
+            Severity = NotificationSeverity.Error,
+            Summary = "Se ha producido un error al validar el formulario",
+            Detail = string.Join("<br />", args.Errors.Select(s => s).ToList()),
+            Duration = 4000
+        });
+    }
+
+    async Task OnCancel()
+    {
+        await OnCancelCallback.InvokeAsync();
+    }
+}

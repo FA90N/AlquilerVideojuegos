@@ -1,0 +1,237 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="BaseController.MediatorException" xml:space="preserve">
+    <value>Error: Mediator exception</value>
+  </data>
+  <data name="BaseController.UserIdException" xml:space="preserve">
+    <value>Error: UserId exception</value>
+  </data>
+  <data name="BaseController.EmailException" xml:space="preserve">
+    <value>Error: Email exception</value>
+  </data>
+  <data name="BaseController.CompanyException" xml:space="preserve">
+    <value>Error: Company exception</value>
+  </data>
+  <data name="DeleteAddressesCommandHandler.AddressesValidationFkBudget" xml:space="preserve">
+    <value>La dirección seleccionada tiene presupuestos asociados y no puede ser eliminada.</value>
+  </data>
+  <data name="DeleteAddressesCommandHandler.AddressesValidationFkInvoice" xml:space="preserve">
+    <value>La dirección seleccionada tiene facturas asociadas y no puede ser eliminada.</value>
+  </data>
+  <data name="UpdateAddressesCommandHandler.AddressMissing" xml:space="preserve">
+    <value>No se puede establecer la dirección como NO fiscal, ya que tiene que existir una como tal</value>
+  </data>
+  <data name="CreateAuthorsCommandHandler.AuthorValidation" xml:space="preserve">
+    <value>Error al crear el {0}, no se puede dar de alta un {0} con el mismo CIF/NIF.</value>
+  </data>
+  <data name="DeleteAuthorsCommandHandler.AuthorValidationFkBudget" xml:space="preserve">
+    <value>El cliente tiene presupuestos asociados y no puede ser eliminado.</value>
+  </data>
+  <data name="DeleteAuthorsCommandHandler.AuthorValidationFkInvoice" xml:space="preserve">
+    <value>El cliente tiene facturas asociadas y no puede ser eliminado.</value>
+  </data>
+  <data name="UpdateAuthorsCommandHandler.AuthorValidation" xml:space="preserve">
+    <value>Error al actualizar el {0}, CIF/NIF ya existe.</value>
+  </data>
+  <data name="UpdateBudgetsCommandHandler.BudgetValidationFinished" xml:space="preserve">
+    <value>No se puede editar un presupuesto finalizado.</value>
+  </data>
+  <data name="DeleteDocumentReferencesCommandHandler.DocumentReferencesInvoiceValidation" xml:space="preserve">
+    <value>No se puede eliminar la serie al tener facturas asociadas.</value>
+  </data>
+  <data name="DeleteDocumentReferencesCommandHandler.DocumentReferencesExpenseValidation" xml:space="preserve">
+    <value>No se puede eliminar la serie al tener gastos asociados.</value>
+  </data>
+  <data name="DeleteDocumentReferencesCommandHandler.DocumentReferencesBudgetValidation" xml:space="preserve">
+    <value>No se puede eliminar la serie al tener presupuestos asociados.</value>
+  </data>
+  <data name="UpdateDocumentReferencesCommandHandler.DocumentReferencesInvoiceValidation" xml:space="preserve">
+    <value>No se puede modificar la serie al tener facturas asociadas.</value>
+  </data>
+  <data name="UpdateDocumentReferencesCommandHandler.DocumentReferencesExpenseValidation" xml:space="preserve">
+    <value>No se puede modificar la serie al tener gastos asociados.</value>
+  </data>
+  <data name="UpdateDocumentReferencesCommandHandler.DocumentReferencesBudgetValidation" xml:space="preserve">
+    <value>No se puede modificar la serie al tener presupuestos asociados.</value>
+  </data>
+  <data name="GetExpensesFromFormRecognizerDocumentQueryHandler.InvalidFormat" xml:space="preserve">
+    <value>Formato de archivo no válido.</value>
+  </data>
+  <data name="GetFileByExpenseIdQueryHandler.ExpenseNotFound" xml:space="preserve">
+    <value>No se encuentra el gasto.</value>
+  </data>
+  <data name="GetFileByExpenseIdQueryHandler.FilenameNotFound" xml:space="preserve">
+    <value>No se encuentra el nombre de archivo.</value>
+  </data>
+  <data name="GetFileByExpenseIdQueryHandler.AzureStorageFileNotFound" xml:space="preserve">
+    <value>No existe el archivo en Azure Storage.</value>
+  </data>
+  <data name="HomeValidationDate" xml:space="preserve">
+    <value>La fecha final no puede ser menor a la fecha inicial.</value>
+  </data>
+  <data name="PaymentMethods.Bizum" xml:space="preserve">
+    <value>Bizum</value>
+  </data>
+  <data name="PaymentMethods.Card" xml:space="preserve">
+    <value>Con tarjeta</value>
+  </data>
+  <data name="PaymentMethods.BankReceipt" xml:space="preserve">
+    <value>Recibo</value>
+  </data>
+  <data name="PaymentMethods.BankTransfer" xml:space="preserve">
+    <value>Transferencia bancaria</value>
+  </data>
+  <data name="PaymentMethods.Custom" xml:space="preserve">
+    <value>Personalizado</value>
+  </data>
+  <data name="GetHomeSummaryInfoHandler.ClientExpensesEvolution" xml:space="preserve">
+    <value>Gastos de cliente</value>
+  </data>
+  <data name="GetHomeSummaryInfoHandler.CompanyExpensesEvolution" xml:space="preserve">
+    <value>Gastos de compañía</value>
+  </data>
+  <data name="GetHomeSummaryInfoHandler.InvoiceEvolution" xml:space="preserve">
+    <value>Facturas pagadas</value>
+  </data>
+  <data name="GetHomeSummaryInfoHandler.BudgetsTypeEvolutionBudgets" xml:space="preserve">
+    <value>Total presupuestado</value>
+  </data>
+  <data name="GetHomeSummaryInfoHandler.BudgetsTypeEvolutionBudgetsApproved" xml:space="preserve">
+    <value>Total presupuestado aprobado</value>
+  </data>
+  <data name="GetHomeSummaryInfoHandler.BudgetsTypeEvolutionBudgetsNonApproved" xml:space="preserve">
+    <value>Total presupuestado no aprobado</value>
+  </data>
+  <data name="GetHomeSummaryInfoHandler.ExpensesTypeEvolutionClient" xml:space="preserve">
+    <value>Gastos cliente</value>
+  </data>
+  <data name="GetHomeSummaryInfoHandler.ExpensesTypeEvolutionOwn" xml:space="preserve">
+    <value>Gastos compañía</value>
+  </data>
+  <data name="GetExpensesFromFormRecognizerDocumentQueryHandler.PristineObject" xml:space="preserve">
+    <value>No se ha detectado ningún dato válido en el documento.</value>
+  </data>
+  <data name="DeleteAuthorsCommandHandler.AuthorValidationFkAddresses" xml:space="preserve">
+    <value>El cliente o proveedor tiene direcciones asociadas y no puede ser eliminado.</value>
+  </data>
+  <data name="DeleteAuthorsCommandHandler.AuthorValidationFkExpenses" xml:space="preserve">
+    <value>El proveedor tiene gastos asociados y no puede ser eliminado.</value>
+  </data>
+</root>

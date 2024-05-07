@@ -1,0 +1,67 @@
+﻿@page "/videoplataforma/{PlataformaId:int}"
+@page "/videoplataforma"
+
+@using Alquileres.Application.Models.Commands
+@attribute [Authorize]
+@inherits BaseComponent
+
+@{
+    const string REQUIRED_VALIDATOR_TEXT = "El campo {0} es requerido";
+    const string MAXLENGTH_VALIDATOR_TEXT = "La longitud no puede ser superior a los {0} caracteres";
+}
+
+<RadzenTemplateForm TItem="PlataformaFormDTO" Data="@Model" Submit="@OnSubmit" InvalidSubmit="@OnInvalidSubmit">
+    <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Right" Gap="10px" Style="margin-bottom:10px">
+        <RadzenButton ButtonType="ButtonType.Submit" Icon="save" Text="Guardar" ButtonStyle="ButtonStyle.Success"></RadzenButton>
+        <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="cancel" Click="() => DialogService.Close()" Text="Cancelar"></RadzenButton>
+    </RadzenStack>
+
+    <RadzenRow>
+
+        <RadzenColumn Size="10" Class="rz-p-0 rz-border-radius-1">
+            <RadzenFormField Text="Plataforma de juego*" Style="width: 100%">
+                <ChildContent>
+                    <RadzenTextBox Name="Plataforma" @bind-Value="Model.Nombre" MaxLength="50" />
+                </ChildContent>
+                <Helper>
+                    <RadzenRequiredValidator Component="Plataforma" Text="@(string.Format(REQUIRED_VALIDATOR_TEXT, "Plataforma"))" />
+                    <RadzenLengthValidator Component="Plataforma" Max="50" Text="@(string.Format(MAXLENGTH_VALIDATOR_TEXT, "50"))" />
+                </Helper>
+            </RadzenFormField>
+        </RadzenColumn>
+
+        <RadzenColumn SizeLG="2" SizeMD="2" SizeXS="12">
+            <RadzenCheckBox Name="Active" @bind-Value="Model.Activado" Style="margin-top: 10px;" />
+            <RadzenLabel Text="En uso" Component="Active" Style="margin-left:5px;vertical-align: middle;margin-top: 10px;" />
+        </RadzenColumn>
+
+        <RadzenColumn Size="8" Class="rz-p-0 rz-border-radius-1">
+            <RadzenFormField Text="Compañia" Style="width: 100%">
+                <ChildContent>
+                    <RadzenTextBox Name="Company" @bind-Value="Model.Company" MaxLength="50" />
+                </ChildContent>
+                <Helper>
+                    <RadzenLengthValidator Component="Company" Max="50" Text="@(string.Format(MAXLENGTH_VALIDATOR_TEXT, "50"))" />
+                </Helper>
+            </RadzenFormField>
+        </RadzenColumn>
+
+        <RadzenColumn Size="4" Class="rz-p-0 rz-border-radius-1">
+            <RadzenFormField Text="Versión" Style="width: 100%">
+                <ChildContent>
+                    <RadzenTextBox Name="Version" @bind-Value="Model.Version" MaxLength="30" />
+                </ChildContent>
+                <Helper>     
+                    <RadzenLengthValidator Component="Version" Max="30" Text="@(string.Format(MAXLENGTH_VALIDATOR_TEXT, "30"))" />
+                </Helper>
+            </RadzenFormField>
+        </RadzenColumn>
+
+
+
+        
+    </RadzenRow>
+
+
+
+</RadzenTemplateForm>

@@ -1,0 +1,42 @@
+﻿@page "/videogenero/{GeneroId:int}"
+@page "/videogenero/"
+
+@using Alquileres.Application.Models.Commands
+@attribute [Authorize]
+@inherits BaseComponent
+
+@{
+    const string REQUIRED_VALIDATOR_TEXT = "El campo {0} es requerido";
+    const string MAXLENGTH_VALIDATOR_TEXT = "La longitud no puede ser superior a los {0} caracteres";
+}
+
+<RadzenTemplateForm TItem="GeneroFormDTO" Data="@Model" Submit="@OnSubmit" InvalidSubmit="@OnInvalidSubmit">
+    <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Right" Gap="10px" Style="margin-bottom:10px">
+        <RadzenButton ButtonType="ButtonType.Submit" Icon="save" Text="Guardar" ButtonStyle="ButtonStyle.Success"></RadzenButton>
+        <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="cancel" Click="() => DialogService.Close()" Text="Cancelar"></RadzenButton>
+    </RadzenStack>
+    
+    <RadzenRow>
+        <RadzenColumn Size="10" Class="rz-p-0 rz-border-radius-1">
+            <RadzenFormField Text="Genero *" Style="width: 100%">
+                <ChildContent>
+                    <RadzenTextBox Name="Genero" @bind-Value="Model.Nombre" MaxLength="50" />
+                </ChildContent>
+                <Helper>
+                    <RadzenRequiredValidator Component="Genero" Text="@(string.Format(REQUIRED_VALIDATOR_TEXT, "Género"))" />
+                    <RadzenLengthValidator Component="Genero" Max="50" Text="@(string.Format(MAXLENGTH_VALIDATOR_TEXT, "50"))" />
+                </Helper>
+            </RadzenFormField>
+
+        </RadzenColumn>
+
+        <RadzenColumn SizeLG="2" SizeMD="2" SizeXS="12">
+            <RadzenCheckBox Name="Active" @bind-Value="Model.Activado" Style="margin-top: 10px;" />
+            <RadzenLabel Text="En uso" Component="Active" Style="margin-left:5px;vertical-align: middle;margin-top: 10px;" />
+        </RadzenColumn>
+
+    </RadzenRow>
+
+    
+
+</RadzenTemplateForm>

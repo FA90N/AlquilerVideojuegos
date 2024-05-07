@@ -1,0 +1,198 @@
+﻿@using Alquileres.Models
+@using System.Text.Json
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+@using Radzen.Blazor.Rendering
+@inherits LayoutComponentBase
+
+@inject NavigationManager NavigationManager
+@inject TooltipService TooltipService
+@inject ProtectedLocalStorage ProtectedLocalStore
+
+@{
+    string[] relativePath = NavigationManager.ToBaseRelativePath(NavigationManager.Uri).Split("/");
+    string fullPath = "";
+    bool isNotHome = !string.IsNullOrEmpty(relativePath[0]) && relativePath[0] != "home";
+}
+
+
+
+<PageTitle>VideoJuego</PageTitle>
+
+<RadzenComponents />
+
+<AuthorizeView>
+    <Authorized>
+     
+        <RadzenLayout Style="position: relative;">
+            <RadzenHeader>
+                <RadzenStack JustifyContent="JustifyContent.SpaceBetween" AlignItems="AlignItems.Center" Orientation="Orientation.Horizontal" Gap="10px">
+                        <div style="display: inline-flex; align-items: center">
+                            <RadzenSidebarToggle Click="@(() => sidebarExpanded = !sidebarExpanded)" />
+                            <RadzenStack Orientation="Orientation.Horizontal" Gap="5px">
+                            <RadzenButton Text="Alquilar" Click="@(GoNewPurchase)" Style="height: 20px;" Icon="shopping_cart" ButtonStyle="ButtonStyle.Light" Variant="Variant.Text" IconColor="white" />
+                                @foreach (var item in favMenuItems)
+                                {
+                                    <RadzenSplitButton Click="@(async args => await DeleteFavMenu(args, item))" Icon="@(item.Icon)" IconColor="white" Text="@(item.Title)" Variant="Variant.Text" ButtonStyle="ButtonStyle.Light">
+                                        <ChildContent>
+                                            <RadzenSplitButtonItem Text="Quitar de accesos rapidos" Value="1" />
+                                        </ChildContent>
+                                    </RadzenSplitButton>
+                                }
+                            </RadzenStack>
+
+                        <RadzenButton @ref="favoriteButton" Click="@(args => popup.ToggleAsync(favoriteButton.Element))" Style="height: 20px;" Icon="add_box" ButtonStyle="ButtonStyle.Light" Variant="Variant.Text" IconColor="white" />
+
+                            <Popup @ref=popup Lazy=true
+                                   Style="display:none;position:absolute;height:300px;width:350px;padding:5px;border:var(--rz-panel-border);background-color:var(--rz-panel-background-color);">
+                                <RadzenPanelMenu >
+                                    @foreach (var groupedItem in groupedMenuItems)
+                                    {
+                                    <RadzenPanelMenuItem Text="@(groupedItem.Key)" Expanded="true">
+                                            @foreach (var item in groupedItem)
+                                            {
+                                                <RadzenPanelMenuItem Click="@(async args => await AddFavMenu(item))" Text="@(item.Title)" Icon="@(item.Icon)" />
+                                            }
+                                        </RadzenPanelMenuItem>
+                                    }
+                                </RadzenPanelMenu>
+                            </Popup>
+                        </div>
+                    <form class="form-inline" action="Account/Logout" method="post" style="margin-right: 10px;">
+                        <AntiforgeryToken />
+                        <input type="hidden" name="ReturnUrl" value="@currentUrl" />
+                        <RadzenButton Icon="exit_to_app" Variant="Variant.Flat" ButtonStyle="ButtonStyle.Secondary" Style="font-size:16px; color:white;" ButtonType="ButtonType.Submit" />
+                    </form>
+                </RadzenStack>
+            </RadzenHeader>
+            <RadzenSidebar Responsive="false" @bind-Expanded="@sidebarExpanded" Style="position: absolute;">
+                <RadzenPanelMenu>
+                    <RadzenPanelMenuItem Click="@(() => sidebarExpanded = !sidebarExpanded)" Text="INICIO" Image="img/casa.png" Path="/"/>
+                    @foreach (var groupedItem in groupedMenuItems)
+                    {
+                        <RadzenPanelMenuItem Text="@(groupedItem.Key)"  Expanded="true">
+                            @foreach (var item in groupedItem)
+                            {
+                                <RadzenPanelMenuItem Click="@(() => sidebarExpanded = !sidebarExpanded)" Text="@(item.Title)" Image="@(item.ImagePath)" Path="@(item.UrlPath)" />
+                            }
+                        </RadzenPanelMenuItem>
+                    }
+                </RadzenPanelMenu>
+            </RadzenSidebar>
+            <RadzenBody>
+                @if (isNotHome)
+                {
+                    <RadzenBreadCrumb Style="margin-bottom: 15px" >
+                        <Template Context="item">
+                            <RadzenLink Path="@item.Path">
+                                <RadzenBadge Text="@item.Text" IsPill="true" />
+                            </RadzenLink>
+                        </Template>
+                        <ChildContent>
+                            <RadzenBreadCrumbItem Path="/" Text="Inicio"  />
+                            @foreach (var item in relativePath)
+                            {
+                                fullPath += item == "edit" ? "/" + item + "/" + relativePath[relativePath.Length - 1] : item == relativePath[relativePath.Length - 1] && relativePath.Count() == 3 ? "" : item == "add" ? "/" + item : item;
+                         
+                                <RadzenBreadCrumbItem Path="@("/" + fullPath)" Text="@(item.Replace("-", " ").Replace("edit", "editar").Replace("add", "crear"))" />
+                            }
+                        </ChildContent>
+                    </RadzenBreadCrumb>
+                }
+                @Body
+            </RadzenBody>
+        </RadzenLayout>
+    </Authorized>
+  
+    <NotAuthorized>
+        @Body
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    private bool sidebarExpanded = false;
+    private string? currentUrl;
+    private IEnumerable<IGrouping<string, MenuItem>> groupedMenuItems = new List<IGrouping<string, MenuItem>>();
+    private List<MenuItem> favMenuItems = new List<MenuItem>();
+    Popup popup;
+
+    RadzenButton favoriteButton;
+
+    protected override async Task OnInitializedAsync()
+    {
+        currentUrl = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
+        NavigationManager.LocationChanged += OnLocationChanged;
+
+        string json = File.ReadAllText("Data/MenuItems.json");
+        var menuItems = JsonSerializer.Deserialize<List<MenuItem>>(json)!;
+        groupedMenuItems = menuItems.GroupBy(card => card.GroupName).ToList();
+
+        try
+        {
+            var result = await ProtectedLocalStore.GetAsync<string>("favMenuItems");
+
+            if (result.Success)
+            {
+                favMenuItems = JsonSerializer.Deserialize<List<MenuItem>>(result.Value!)!;
+            }
+        }
+        catch
+        {
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        string[] relativePath = NavigationManager.ToBaseRelativePath(NavigationManager.Uri).Split("/");
+        bool isNotHome = !string.IsNullOrEmpty(relativePath[0]) && relativePath[0] != "home";
+
+        if (firstRender && isNotHome && favMenuItems.Count == 0 && favoriteButton != null)
+        {
+            TooltipService.Open(favoriteButton.Element,
+                "Haga clic en el botón a continuación para comenzar a agregar accesos rápidos.",
+                new TooltipOptions() { Delay = 1000, Duration = 10000, Position = TooltipPosition.Right });
+        }
+    }
+
+    private void OnLocationChanged(object? sender, LocationChangedEventArgs e)
+    {
+        currentUrl = NavigationManager.ToBaseRelativePath(e.Location);
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        NavigationManager.LocationChanged -= OnLocationChanged;
+    }
+
+    public void GoHome()
+    {
+        NavigationManager.NavigateTo("/");
+    }
+
+    public void GoNewPurchase()
+    {
+        NavigationManager.NavigateTo("/alquiler/add", true);
+    }
+
+    private async Task AddFavMenu(MenuItem menuItem)
+    {
+        if (!favMenuItems.Any(a => a.Title == menuItem.Title))
+        {
+            favMenuItems.Add(menuItem);
+            await ProtectedLocalStore.SetAsync("favMenuItems", JsonSerializer.Serialize(favMenuItems));
+        }
+    }
+
+    private async Task DeleteFavMenu(RadzenSplitButtonItem item, MenuItem menuItem)
+    {
+        if (item != null && item.Value == "1")
+        {
+            favMenuItems.Remove(menuItem);
+            await ProtectedLocalStore.SetAsync("favMenuItems", JsonSerializer.Serialize(favMenuItems));
+        }
+        else
+        {
+            NavigationManager.NavigateTo(menuItem.UrlPath, true, true);
+        }
+    }
+}

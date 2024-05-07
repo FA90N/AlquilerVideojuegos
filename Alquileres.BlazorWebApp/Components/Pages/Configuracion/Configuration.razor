@@ -1,0 +1,26 @@
+﻿@page "/configuracion"
+@using Alquileres.Application.Models.Queries
+@using Alquileres.Components.Pages.Configuracion
+@attribute [Authorize]
+@inherits BaseComponent
+
+<RadzenTabs @bind-SelectedIndex=@selectedIndex>
+    <Tabs>
+       
+
+        <RadzenTabsItem Text="Géneros">
+            <GeneroGrid></GeneroGrid>
+        </RadzenTabsItem>
+
+        <RadzenTabsItem Text="Plataformas">
+            <PlataformaGrid></PlataformaGrid>
+        </RadzenTabsItem>
+
+        <RadzenTabsItem Text="Forma de pago">
+            <FormaPagoGrid></FormaPagoGrid>
+        </RadzenTabsItem>
+
+    </Tabs>
+</RadzenTabs>
+
+      
