@@ -1,2 +1,2 @@
 # Proyecto Fin del Ciclo DAM
-ERP VIDEOJUEGOS
+ERP VIDEOJUEGOS, Es un proyecto realizada .NET 8, Se basa en alquiler de videojuegos
